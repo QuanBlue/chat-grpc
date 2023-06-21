@@ -1,131 +1,239 @@
 <h1 align="center">
-  <img src="./assets/readme-icon.png" alt="icon" width="200"></img>
+  <img src="./assets/grpc-logo.png" alt="icon" height="150"></img>
   <br>
-  <b>README template</b>
+  <b>Chat gRPC</b>
 </h1>
 
-<p align="center">Structured guide to create informative project documentation, providing a standard format for conveying project details and instructions.</p>
+<p align="center">A chat application using gRPC to communicate between processes.</p>
 
 <!-- Badges -->
 <p align="center">
-  <a href="https://github.com/QuanBlue/Readme-template/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/QuanBlue/Readme-template" alt="contributors" />
+  <a href="https://github.com/QuanBlue/chat-grpc/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/QuanBlue/chat-grpc" alt="contributors" />
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/last-commit/QuanBlue/Readme-template" alt="last update" />
+    <img src="https://img.shields.io/github/last-commit/QuanBlue/chat-grpc" alt="last update" />
   </a>
-  <a href="https://github.com/QuanBlue/Readme-template/network/members">
-    <img src="https://img.shields.io/github/forks/QuanBlue/Readme-template" alt="forks" />
+  <a href="https://github.com/QuanBlue/chat-grpc/network/members">
+    <img src="https://img.shields.io/github/forks/QuanBlue/chat-grpc" alt="forks" />
   </a>
-  <a href="https://github.com/QuanBlue/Readme-template/stargazers">
-    <img src="https://img.shields.io/github/stars/QuanBlue/Readme-template" alt="stars" />
+  <a href="https://github.com/QuanBlue/chat-grpc/stargazers">
+    <img src="https://img.shields.io/github/stars/QuanBlue/chat-grpc" alt="stars" />
   </a>
-  <a href="https://github.com/QuanBlue/Readme-template/issues/">
-    <img src="https://img.shields.io/github/issues/QuanBlue/Readme-template" alt="open issues" />
+  <a href="https://github.com/QuanBlue/chat-grpc/issues/">
+    <img src="https://img.shields.io/github/issues/QuanBlue/chat-grpc" alt="open issues" />
   </a>
-  <a href="https://github.com/QuanBlue/Readme-template/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/QuanBlue/Readme-template.svg" alt="license" />
+  <a href="https://github.com/QuanBlue/chat-grpc/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/QuanBlue/chat-grpc.svg" alt="license" />
   </a>
 </p>
 
 <p align="center">
   <b>
       <a href="#demo">Demo</a> •
-      <a href="https://github.com/QuanBlue/Readme-template">Documentation</a> •
-      <a href="https://github.com/QuanBlue/Readme-template/issues/">Report Bug</a> •
-      <a href="https://github.com/QuanBlue/Readme-template/issues/">Request Feature</a>
+      <a href="https://github.com/QuanBlue/chat-grpc">Documentation</a> •
+      <a href="https://github.com/QuanBlue/chat-grpc/issues/">Report Bug</a> •
+      <a href="https://github.com/QuanBlue/chat-grpc/issues/">Request Feature</a>
   </b>
 </p>
 
 <br/>
 
-![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
-
 <details open>
 <summary><b>📖 Table of Contents</b></summary>
 
 -  [Demo](#film_projector-demo)
+-  [Report](#newspaper-report)
+-  [Introduction](#introduction)
+   -  [What is gRPC?](#what-is-grpc)
+   -  [Why gRPC?](#why-grpc)
 -  [Key Features](#star-key-features)
 -  [Getting Started](#toolbox-getting-started)
    -  [Prerequisites](#pushpin-prerequisites)
-   -  [Environment Variables](#key-environment-variables)
-   -  [Installation](#hammer_and_wrench-installation)
--  [Roadmap](#world_map-roadmap)
+   -  [Run Locally](#hammer_and_wrench-run-locally)
+-  [Chat Convention](#speech_balloon-chat-convention)
+   -  [LIKE reply](#like-reply)
+   -  [Exception](#exception)
+-  [Log](#page_facing_up-log)
+   -  [Log file](#log-file)
+   -  [Content](#content)
 -  [Contributors](#busts_in_silhouette-contributors)
 -  [Credits](#sparkles-credits)
 -  [License](#scroll-license)
--  [Related Projects](#link-related-projects)
 </details>
 
 # :film_projector: Demo
 
-Check out the [**demo video**](https://www.youtube.com/channel/UCALhAytLBhmG2un43YxU4mw) to see the app in action.  
-Here is deployed website: [**https://quanblue.netlify.app/**](https://quanblue.netlify.app/)
+Check out the [**demo video**](https://www.youtube.com/watch?v=j3ZhaS5n7hU&ab_channel=ThanhQu%C3%A2nCoder) to see the app in action.
+
+# :newspaper: Report
+
+Check out the [**report**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5hV9Z66X6tNGrkkXGsKeIZU_Ns8/edit) to see full report document.
+
+# Introduction
+
+An application use gRPC to communicate between processes and allow users chat with each other.
+
+## What is gRPC?
+
+gRPC (Google Remote Procedure Call) is an open-source, high-performance remote procedure call (RPC) framework developed by Google. It allows communication between client and server applications in a distributed system, enabling them to call methods or functions on remote systems as if they were local.
+
+**Key features of gRPC include:** `Language-agnostic`, `Protocol Buffers`, `Bi-directional Streaming`, `Strong Typing and Code Generation`, `Interoperability`, `Performance`.
+
+gRPC is widely used in various domains, including microservices architectures, cloud-native applications, and distributed systems. It simplifies the development of client-server communication, promotes code reusability, and enables the building of scalable and performant applications.
+
+## Why gRPC?
+
+-  Efficient Communication
+-  Language Agnostic
+-  Strong Typing and Code Generation
+-  Streaming and Real-Time Capabilities
+-  Performance and Scalability
+-  Extensibility and Interoperability
 
 # :star: Key Features
 
--  Template - professional README, [Release](./Release.md) templates
--  Theme - nice theme for README
+-  CLI interface
+-  Server - Client
+-  Communication between processes - gRPC
+-  Voting - At least 2 other users LIKE the before msg to send new msg
+-  Log file
 
 # :toolbox: Getting Started
 
 ## :pushpin: Prerequisites
 
--  **Python:** `>= 3.10.7`
--  **Docker Engine:** Docker provides a consistent and portable environment for running applications in containers. Install [here](https://www.docker.com/get-started/).
+-  **Python:** >= 3.10.7
+-  **gRPC tools:** gRPC compiler, Install [here](https://grpc.io/docs/languages/python/quickstart/).
 
-## :key: Environment Variables
+## :hammer_and_wrench: Run Locally
 
-To run this project, you need to add the following environment variables to your `.env` file in `/`:
-
--  **App configs:** Create `.env` file in `./`
-
-   -  `SECRET_KEY`: a key used by Flask to encrypt and sign session data.
-   -  `PORT`: specify which port the Flask application should listen on.
-
-   Example:
-
-   ```sh
-   # .env
-   SECRET_KEY="Readme-template"
-   PORT=3000
-   ```
-
-You can also check out the file `.env.example` to see all required environment variables.
-
-> **Note**: If you want to use this example environment, you need to rename it to `.env`.
-
-## :hammer_and_wrench: Installation
-
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Python](https://www.python.org/downloads/) installed on your computer. From your command line:
+Install application
 
 ```bash
 # Clone this repository
-git clone https://github.com/QuanBlue/Readme-template
+git clone https://github.com/QuanBlue/chat-grpc.git
 
 # Go into the repository
-cd Readme-template
-
-# Install dependencies
-npm install
-
-# Run the app
-npm start
+cd chat-grpc
 ```
 
-> **Note**
-> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+Run server
 
-# :world_map: Roadmap
+```bash
+python server.py
+```
 
--  [x] Update theme
--  [x] Emoji
--  [ ] Add more features
+Run client (open new terminal)
+
+```bash
+python client.py
+```
+
+> **Note:** Run multiple client by using multiple terminal
+
+# :speech_balloon: Chat Convention
+
+## LIKE reply
+
+> **LIKE reply:** for allow user XX to continue chat (at least 2 LIKE)
+
+**Syntax:** `LIKE_<user_id>`
+
+**Rule:**
+
+-  Only LIKE once per user
+-  Can not LIKE your self
+
+<u>Example:</u> LIKE_01
+
+## Exception
+
+**Syntax:** `[<type>] <content>_<user_id>`
+
+**Program exception:**
+
+```log
+[WARNING] You can not LIKE yourself_<from_user>!
+[WARNING] You only LIKED: [<user_id>]'s message ONCE!_<from_user>
+[WARNING] You are NOT allowed to send message_<from_user>
+[INFO] You LIKED: [<user_id>]'s message_<from_user>
+```
+
+# :page_facing_up: Log
+
+## Log file
+
+**Syntax:** `[<time>] <content>`
+
+```log
+<!-- logfile.log exapmle  -->
+[15:47:47] Quan join group chat - ID(01)
+[15:47:54] User[01] send message 'hello'
+[15:47:54] User[01] is BLOCKED to send message
+[15:48:08] User[01] is not allow to send message
+[15:48:15] Van join group chat - ID(02)
+[15:48:20] Lien join group chat - ID(03)
+[15:48:23] Hao join group chat - ID(04)
+[15:48:29] Dat join group chat - ID(05)
+[15:48:35] User[05] send message 'hello'
+[15:48:35] User[05] is BLOCKED to send message
+[15:48:42] User[04] send message 'chao moi nguoi'
+[15:48:42] User[04] is BLOCKED to send message
+[15:48:51] User[03] send message 'alo alo'
+[15:48:51] User[03] is BLOCKED to send message
+[15:49:03] User[03] like for User[01]
+[15:49:15] User[03] like for User[01]
+[15:49:28] User[03] like for User[03]
+[15:49:36] User[04] like for User[01]
+[15:49:36] User[01] is ALLOWED to send message
+[15:49:56] User[01] send message 'hi , i am free'
+[15:49:56] User[01] is BLOCKED to send message
+[15:50:00] User[01] is not allow to send message
+```
+
+## Content
+
+Client connect and enter username:
+
+```
+<username> join group chat - ID(<user_id>)
+```
+
+Client send msg success:
+
+```
+User[<user_id>] send message ‘<message>
+```
+
+Client A like client B's msg:
+
+```
+User[<userA_id>] like for User[<userB_id>]
+```
+
+Client being block send msg but still try sending msg:
+
+```
+User[<user_id>] is not allow to send message
+```
+
+Client has been blocked from sending messages:
+
+```
+User[<user_id>] is BLOCKED to send message
+```
+
+The client is allowed to send messages:
+
+```
+User[<user_id>] is ALLOWED to send message
+```
 
 # :busts_in_silhouette: Contributors
 
-<a href="https://github.com/QuanBlue/Readme-template/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=QuanBlue/Readme-template" />
+<a href="https://github.com/QuanBlue/chat-grpc/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=QuanBlue/chat-grpc" />
 </a>
 
 Contributions are always welcome!
@@ -134,19 +242,12 @@ Contributions are always welcome!
 
 This software uses the following open source packages:
 
--  [Node.js](https://nodejs.org/)
--  [Marked - a markdown parser](https://github.com/chjj/marked)
+-  [gRPC](https://grpc.io/)
 -  Emojis are taken from [here](https://github.com/arvida/emoji-cheat-sheet.com)
 
 # :scroll: License
 
 Distributed under the MIT License. See <a href="./LICENSE">`LICENSE`</a> for more information.
-
-# :link: Related Projects
-
--  <u>[**QuanBlue**](https://github.com/QuanBlue/QuanBlue)</u>: My bio
--  <u>[**Portfolio**](https://github.com/QuanBlue/Portfolio)</u>: My first portfolio website, using MERN stack. [Visit here](https://quanblue.netlify.app/)
--  <u>[**Readme-template**](https://github.com/QuanBlue/Readme-template)</u>: A template for creating README.md
 
 ---
 
