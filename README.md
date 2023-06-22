@@ -46,7 +46,7 @@
    -  [What is gRPC?](#what-is-grpc)
    -  [Why gRPC?](#why-grpc)
 -  [:film_projector: Demo](#film_projector-demo)
--  [:newspaper: Report](#newspaper-report)
+-  [:newspaper: Documentation](#newspaper-documentation)
 -  [:star: Key Features](#star-key-features)
 -  [:toolbox: Getting Started](#toolbox-getting-started)
    -  [:pushpin: Prerequisites](#pushpin-prerequisites)
@@ -88,9 +88,15 @@ gRPC is widely used in various domains, including microservices architectures, c
 
 Check out the [**demo video**](https://www.youtube.com/watch?v=j3ZhaS5n7hU&ab_channel=ThanhQu%C3%A2nCoder) to see the app in action.
 
-# :newspaper: Report
+# :newspaper: Documentation
 
-Check out the [**report**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5hV9Z66X6tNGrkkXGsKeIZU_Ns8/edit) to see full report document.
+Check out the [**Documentation**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5hV9Z66X6tNGrkkXGsKeIZU_Ns8/edit) to see full report document.
+
+Detail Documentation:
+
+-  [Client documentation](https://github.com/QuanBlue/chat-grpc/tree/main/client).
+-  [Server documentation](https://github.com/QuanBlue/chat-grpc/tree/main/server).
+-  [Service documentation](https://github.com/QuanBlue/chat-grpc/tree/main/service).
 
 # :star: Key Features
 
@@ -109,66 +115,19 @@ Check out the [**report**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5
 
 ## :mechanical_arm: How to use gRPC
 
-**1**. **Define your gRPC service** using protocol buffers. This will define the messages and methods used for communication.
+<u>**Step 1:**</u> **Define your gRPC service** using protocol buffers.
 
-1. Define your service in a .proto file using protocol buffer syntax. (`chat.proto` in `/service`)
+> Refer to [Service documentation](https://github.com/QuanBlue/chat-grpc/tree/main/service) for more information.
 
-   ```go
-   syntax = "proto3";
+<u>**Step 2:**</u> **Implement the server-side code** for your gRPC service. This will handle incoming requests and provide responses. You can create a new process for each instance of your gRPC server.
 
-   service ChatService {
-     rpc SendMessage(Message) returns (Message) {}
-     rpc ReceiveMessage(Empty) returns (stream Message) {}
-   }
+> Refer to [Server documentation](https://github.com/QuanBlue/chat-grpc/tree/main/server) for more information.
 
-   message Message {
-     string user_name = 1;
-     string text = 2;
-   }
+<u>**Step 3:**</u> **Implement the client-side code** for your gRPC service. This will send requests to the server and receive responses. You can create one or more client processes as needed.
 
-   message Empty {}
-   ```
+> Refer to [Client documentation](https://github.com/QuanBlue/chat-grpc/tree/main/client) for more information.
 
-   <details>
-     <summary>Explain variable</summary>
-
-   This defines a:
-
-   -  **Message** type with `text` and `sender` fields
-   -  **ChatService** with two methods:
-      -  `SendMessage` takes a `Message` object as input and returns a `Message` object
-      -  `ReceiveMessage` takes an empty `Empty` object as input and returns a stream of `Message` objects.
-
-   </details>
-
-2. Use the generated code to implement your gRPC service.
-
-   ```shell
-   python -m grpc_tools.protoc -I [path/to/protos/dir] --python_out=[path/to/output/python] --grpc_python_out=[path/to/output/grpc/python] [/path/to/protos/file.proto]
-   ```
-
-   Example:
-
-   ```shell
-    python3 -m grpc_tools.protoc -I service --python_out=./service --grpc_python_out=./service ./service/user.proto
-
-   python3 -m grpc_tools.protoc -I service/proto --python_out=./service --grpc_python_out=./service ./service/proto/chat.proto
-   ```
-
-3. **Implement the server-side code** for your gRPC service. This will handle incoming requests and provide responses. You can create a new process for each instance of your gRPC server.
-     <details>
-       <summary>Explain server</summary>
-
-   -  This defines a `ChatServiceServicer` class that implements the `ChatService` defined in `chat.proto`. The `SendMessage` function appends the received message to a list of messages and returns the same message. The `ReceiveMessage` function yields all the messages in the list.
-   -  The `serve` function creates a gRPC server and adds the `ChatServiceServicer` to it. It starts the server on port `50051`.
-
-      </details>
-
-4. **Implement the client-side code** for your gRPC service. This will send requests to the server and receive responses. You can create one or more client processes as needed.
-
-5. **Start** the `server process` and `client process(es)`.
-
-6. Use gRPC's built-in functionality to handle the communication between the server and client processes.
+<u>**Step 4:**</u> Start the `server process` and `client process(es)`.
 
 ## :hammer_and_wrench: Run Locally
 
@@ -185,13 +144,13 @@ cd chat-grpc
 Run server
 
 ```bash
-python server.py
+python3 server.py
 ```
 
 Run client (open new terminal)
 
 ```bash
-python client.py
+python3 client.py
 ```
 
 > **Note:** Run multiple client by using multiple terminal

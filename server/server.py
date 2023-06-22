@@ -10,7 +10,7 @@ from services.chat_service import ChatServiceServicer
 """
 Main entry point for the gRPC server.
 """
-def serve():
+def Server():
 	# create a gRPC server
 	server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 	
@@ -32,4 +32,4 @@ def serve():
 
 
 if __name__ == '__main__':
-	serve()
+	Server()
