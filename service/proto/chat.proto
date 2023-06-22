@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "user.proto";
+
+service ChatService {
+  rpc SendMessage(Message) returns (Message) {}
+  rpc ReceiveMessage(Empty) returns (stream Message) {}
+}
+
+message Message {
+  User user = 1;
+  string text = 2;
+}
+
+message Empty {}

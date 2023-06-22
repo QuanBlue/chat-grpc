@@ -42,35 +42,28 @@
 <details open>
 <summary><b>📖 Table of Contents</b></summary>
 
--  [Demo](#film_projector-demo)
--  [Report](#newspaper-report)
--  [Introduction](#introduction)
+-  [:dizzy: Introduction](#dizzy-introduction)
    -  [What is gRPC?](#what-is-grpc)
    -  [Why gRPC?](#why-grpc)
--  [Key Features](#star-key-features)
--  [Getting Started](#toolbox-getting-started)
-   -  [Prerequisites](#pushpin-prerequisites)
-   -  [Run Locally](#hammer_and_wrench-run-locally)
--  [Chat Convention](#speech_balloon-chat-convention)
+-  [:film_projector: Demo](#film_projector-demo)
+-  [:newspaper: Report](#newspaper-report)
+-  [:star: Key Features](#star-key-features)
+-  [:toolbox: Getting Started](#toolbox-getting-started)
+   -  [:pushpin: Prerequisites](#pushpin-prerequisites)
+   -  [:mechanical_arm: How to use gRPC](#mechanical_arm-how-to-use-grpc)
+   -  [:hammer_and_wrench: Run Locally](#hammer_and_wrench-run-locally)
+-  [:speech_balloon: Chat Convention](#speech_balloon-chat-convention)
    -  [LIKE reply](#like-reply)
    -  [Exception](#exception)
--  [Log](#page_facing_up-log)
+-  [:page_facing_up: Log](#page_facing_up-log)
    -  [Log file](#log-file)
    -  [Content](#content)
--  [Contributors](#busts_in_silhouette-contributors)
--  [Credits](#sparkles-credits)
--  [License](#scroll-license)
+-  [:busts_in_silhouette: Contributors](#busts_in_silhouette-contributors)
+-  [:sparkles: Credits](#sparkles-credits)
+-  [:scroll: License](#scroll-license)
 </details>
 
-# :film_projector: Demo
-
-Check out the [**demo video**](https://www.youtube.com/watch?v=j3ZhaS5n7hU&ab_channel=ThanhQu%C3%A2nCoder) to see the app in action.
-
-# :newspaper: Report
-
-Check out the [**report**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5hV9Z66X6tNGrkkXGsKeIZU_Ns8/edit) to see full report document.
-
-# Introduction
+# :dizzy: Introduction
 
 An application use gRPC to communicate between processes and allow users chat with each other.
 
@@ -91,6 +84,14 @@ gRPC is widely used in various domains, including microservices architectures, c
 -  Performance and Scalability
 -  Extensibility and Interoperability
 
+# :film_projector: Demo
+
+Check out the [**demo video**](https://www.youtube.com/watch?v=j3ZhaS5n7hU&ab_channel=ThanhQu%C3%A2nCoder) to see the app in action.
+
+# :newspaper: Report
+
+Check out the [**report**](https://docs.google.com/document/d/1XG1qBbMOVZpRwFrU5hV9Z66X6tNGrkkXGsKeIZU_Ns8/edit) to see full report document.
+
 # :star: Key Features
 
 -  CLI interface
@@ -105,6 +106,69 @@ gRPC is widely used in various domains, including microservices architectures, c
 
 -  **Python:** >= 3.10.7
 -  **gRPC tools:** gRPC compiler, Install [here](https://grpc.io/docs/languages/python/quickstart/).
+
+## :mechanical_arm: How to use gRPC
+
+**1**. **Define your gRPC service** using protocol buffers. This will define the messages and methods used for communication.
+
+1. Define your service in a .proto file using protocol buffer syntax. (`chat.proto` in `/service`)
+
+   ```go
+   syntax = "proto3";
+
+   service ChatService {
+     rpc SendMessage(Message) returns (Message) {}
+     rpc ReceiveMessage(Empty) returns (stream Message) {}
+   }
+
+   message Message {
+     string user_name = 1;
+     string text = 2;
+   }
+
+   message Empty {}
+   ```
+
+   <details>
+     <summary>Explain variable</summary>
+
+   This defines a:
+
+   -  **Message** type with `text` and `sender` fields
+   -  **ChatService** with two methods:
+      -  `SendMessage` takes a `Message` object as input and returns a `Message` object
+      -  `ReceiveMessage` takes an empty `Empty` object as input and returns a stream of `Message` objects.
+
+   </details>
+
+2. Use the generated code to implement your gRPC service.
+
+   ```shell
+   python -m grpc_tools.protoc -I [path/to/protos/dir] --python_out=[path/to/output/python] --grpc_python_out=[path/to/output/grpc/python] [/path/to/protos/file.proto]
+   ```
+
+   Example:
+
+   ```shell
+    python3 -m grpc_tools.protoc -I service --python_out=./service --grpc_python_out=./service ./service/user.proto
+
+   python3 -m grpc_tools.protoc -I service/proto --python_out=./service --grpc_python_out=./service ./service/proto/chat.proto
+   ```
+
+3. **Implement the server-side code** for your gRPC service. This will handle incoming requests and provide responses. You can create a new process for each instance of your gRPC server.
+     <details>
+       <summary>Explain server</summary>
+
+   -  This defines a `ChatServiceServicer` class that implements the `ChatService` defined in `chat.proto`. The `SendMessage` function appends the received message to a list of messages and returns the same message. The `ReceiveMessage` function yields all the messages in the list.
+   -  The `serve` function creates a gRPC server and adds the `ChatServiceServicer` to it. It starts the server on port `50051`.
+
+      </details>
+
+4. **Implement the client-side code** for your gRPC service. This will send requests to the server and receive responses. You can create one or more client processes as needed.
+
+5. **Start** the `server process` and `client process(es)`.
+
+6. Use gRPC's built-in functionality to handle the communication between the server and client processes.
 
 ## :hammer_and_wrench: Run Locally
 
