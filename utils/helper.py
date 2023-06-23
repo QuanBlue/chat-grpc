@@ -18,5 +18,11 @@ def GetCurrentTime():
    return formatted_time
 
 
-def ClearScreen(self):
+def ClearScreen():
    os.system('cls' if os.name == 'nt' else 'clear')
+   
+def PaddingSpace(base_len, string_len):
+   padding = int((base_len - string_len) / 2)
+   remainder = base_len - int((base_len - string_len) / 2)*2 - string_len
+   
+   return padding, remainder
