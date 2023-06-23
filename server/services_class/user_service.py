@@ -1,30 +1,19 @@
+import os, sys
+
 from google.protobuf import timestamp_pb2
 from datetime import datetime
+
+
 
 import services.grpc_generated.user_pb2 as user_pb2
 import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 
-from utils.helper import *
+from helper import *
 
 
 class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
     def __init__(self):
         self.users = []
-
-    # def GetCurrentTime(self):
-    # 	"""Get the current time
-
-    # 	Returns:
-    # 		google.protobuf.Timestamp: The current time.
-    # 	"""
-    # 	# Get the current time
-    # 	current_time = datetime.utcnow()
-
-    # 	# Create a Timestamp object and set the current time
-    # 	timestamp = timestamp_pb2.Timestamp()
-    # 	timestamp.FromDatetime(current_time)
-
-    # 	return timestamp
 
     def GenerateUserId(self):
         """Generate a new user ID

@@ -1,6 +1,6 @@
 import services.grpc_generated.chat_pb2 as chat_pb2
 import services.grpc_generated.chat_pb2_grpc as chat_pb2_grpc
-from utils.helper import *
+from helper import *
 
 
 class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
@@ -23,7 +23,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 		sending_msg.time = GetCurrentTime()
 
 		# Add the message to the list of messages
-		self.messages.append(request) 
+		self.messages.append(request)
 
 		return sending_msg
 

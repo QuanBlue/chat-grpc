@@ -166,7 +166,6 @@ chat-grpc/                      # Root directory of the project
     │   ├── user_service.py
     │   └── chat_service.py
     └── README.md
-
 ```
 
 ## :hammer_and_wrench: Run Locally
