@@ -1,5 +1,11 @@
-import threading
 import grpc
+import threading
+import os, sys
+
+root_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+grpc_gen_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '../services/grpc_generated/')))
+sys.path.append(root_dir)
+sys.path.append(grpc_gen_dir)
 
 import services.grpc_generated.chat_pb2 as chat_pb2
 import services.grpc_generated.chat_pb2_grpc as chat_pb2_grpc
