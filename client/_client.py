@@ -44,9 +44,9 @@ class ChatClient:
             
             ClearScreen()
             
-            heading_frame_top =  "                       ┏━━━━━━━━━━━━━━━━━━━━━┓"    
-            heading_frame     =  "╔══════════════════════╣   CHAT BOX - gRPC   ╠════════════════════╗"
-            heading_frame_bot =  "║                      ┗━━━━━━━━━━━━━━━━━━━━━┛                    ║"    
+            heading_frame_top =  "                      ┏━━━━━━━━━━━━━━━━━━━━━┓"    
+            heading_frame     =  "╔═════════════════════╣   CHAT BOX - gRPC   ╠═════════════════════╗"
+            heading_frame_bot =  "║                     ┗━━━━━━━━━━━━━━━━━━━━━┛                     ║"    
             welcome_msg = f"WELCOME {self.user_name}! - Your ID is {self.user.id}"
             
             frame_len = len(heading_frame)
