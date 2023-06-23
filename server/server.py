@@ -1,11 +1,11 @@
 import grpc
 from concurrent import futures
 
-import service.grpc_generated.chat_pb2_grpc as chat_pb2_grpc
-import service.grpc_generated.user_pb2_grpc as user_pb2_grpc
+import services.grpc_generated.chat_pb2_grpc as chat_pb2_grpc
+import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 
-from services.user_service import UserServiceServicer 
-from services.chat_service import ChatServiceServicer 
+from services_class.user_service import UserServiceServicer 
+from services_class.chat_service import ChatServiceServicer 
 
 """
 Main entry point for the gRPC server.

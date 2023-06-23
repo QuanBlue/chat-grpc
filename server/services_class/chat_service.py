@@ -1,5 +1,5 @@
-import service.grpc_generated.chat_pb2 as chat_pb2
-import service.grpc_generated.chat_pb2_grpc as chat_pb2_grpc
+import services.grpc_generated.chat_pb2 as chat_pb2
+import services.grpc_generated.chat_pb2_grpc as chat_pb2_grpc
 from utils.helper import *
 
 

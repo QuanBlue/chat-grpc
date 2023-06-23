@@ -51,6 +51,7 @@
 -  [:toolbox: Getting Started](#toolbox-getting-started)
    -  [:pushpin: Prerequisites](#pushpin-prerequisites)
    -  [:mechanical_arm: How to use gRPC](#mechanical_arm-how-to-use-grpc)
+   -  [:file_folder: Folder structure](#file_folder-folder-structure)
    -  [:hammer_and_wrench: Run Locally](#hammer_and_wrench-run-locally)
 -  [:speech_balloon: Chat Convention](#speech_balloon-chat-convention)
    -  [LIKE reply](#like-reply)
@@ -128,6 +129,45 @@ Detail Documentation:
 > Refer to [Client documentation](https://github.com/QuanBlue/chat-grpc/tree/main/client) for more information.
 
 <u>**Step 4:**</u> Start the `server process` and `client process(es)`.
+
+## :file_folder: Folder structure
+
+This project has the following file structure:
+
+```bash
+chat-grpc/                      # Root directory of the project
+├── README.md                   # Markdown file with project information
+├── LICENSE                     # File specifying the project's license
+├── .gitignore                  # File specifying Git ignore patterns
+├── assets/                     # Directory for project assets
+│   ├── image1.png
+│   ├── image2.png
+│   └── image...
+├── logs/                       # Directory for log files
+│   └── logfile.log
+├── utils/                      # Directory for utility files
+│   └── helper.py
+├── services/                   # Directory for service-related files
+│   ├── proto/                  # Directory for protocol buffer definition files
+│   │   ├── user.proto
+│   │   └── message.proto
+│   ├── grpc_generated/         # Directory for generated gRPC files
+│   │   ├── user_pb2.py
+│   │   ├── user_pb2_grpc.py
+│   │   ├── message_pb2.py
+│   │   └── message_pb2_grpc.py
+│   └── README.md
+├── client/                     # Directory for client-related files
+│   ├── client.py
+│   └── README.md
+└── server/                     # Directory for server-related files
+    ├── server.py
+    ├── services_class/         # Directory for service-specific classes
+    │   ├── user_service.py
+    │   └── chat_service.py
+    └── README.md
+
+```
 
 ## :hammer_and_wrench: Run Locally
 
