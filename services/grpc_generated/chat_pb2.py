@@ -11,21 +11,20 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 import user_pb2 as user__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\nuser.proto\"[\n\x07Message\x12\x15\n\x06sender\x18\x01 \x01(\x0b\x32\x05.User\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\x12(\n\x04time\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\x07\n\x05\x45mpty2Z\n\x0b\x43hatService\x12#\n\x0bSendMessage\x12\x08.Message\x1a\x08.Message\"\x00\x12&\n\x0eReceiveMessage\x12\x06.Empty\x1a\x08.Message\"\x00\x30\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\x1a\nuser.proto\"?\n\x07Message\x12\x15\n\x06sender\x18\x01 \x01(\x0b\x32\x05.User\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\x12\x0c\n\x04time\x18\x03 \x01(\t\"\x07\n\x05\x45mpty2Z\n\x0b\x43hatService\x12#\n\x0bSendMessage\x12\x08.Message\x1a\x08.Message\"\x00\x12&\n\x0eReceiveMessage\x12\x06.Empty\x1a\x08.Message\"\x00\x30\x01\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'chat_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _MESSAGE._serialized_start=59
-  _MESSAGE._serialized_end=150
-  _EMPTY._serialized_start=152
-  _EMPTY._serialized_end=159
-  _CHATSERVICE._serialized_start=161
-  _CHATSERVICE._serialized_end=251
+  _MESSAGE._serialized_start=26
+  _MESSAGE._serialized_end=89
+  _EMPTY._serialized_start=91
+  _EMPTY._serialized_end=98
+  _CHATSERVICE._serialized_start=100
+  _CHATSERVICE._serialized_end=190
 # @@protoc_insertion_point(module_scope)

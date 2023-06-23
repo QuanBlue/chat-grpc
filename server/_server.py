@@ -1,10 +1,8 @@
-import sys
-import os
+import os, sys
 
 root_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 grpc_gen_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '../services/grpc_generated/')))
 utils_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '../utils/')))
-
 sys.path.append(root_dir)
 sys.path.append(grpc_gen_dir)
 sys.path.append(utils_dir)
@@ -12,20 +10,6 @@ sys.path.append(utils_dir)
 import grpc
 from concurrent import futures
 
-# grpc_gen_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), '../services/grpc_generated/')))
-# sys.path.append(grpc_gen_dir)
-
-# import user_pb2_grpc
-# import chat_pb2_grpc
-
-
-# service_class_dir = (os.path.abspath(os.path.join(os.path.dirname(__file__), './services_class/')))
-# sys.path.append(service_class_dir)
-
-# from user_service import UserServiceServicer 
-# from chat_service import ChatServiceServicer 
-
-# import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 from services.grpc_generated import user_pb2_grpc
 from services.grpc_generated import chat_pb2_grpc
 

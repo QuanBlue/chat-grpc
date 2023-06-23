@@ -7,6 +7,7 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 	def __init__(self):
 		self.messages = []
 
+	# complete!
 	def SendMessage(self, request, context):
 		"""Send a message to a user
 
@@ -23,10 +24,11 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 		sending_msg.time = GetCurrentTime()
 
 		# Add the message to the list of messages
-		self.messages.append(request)
+		self.messages.append(sending_msg)
 
 		return sending_msg
 
+	# complete!
 	def ReceiveMessage(self, request, context):
 		"""Receive a message from a user
 

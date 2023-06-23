@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
 import "user.proto";
 
 service ChatService {
@@ -11,7 +10,7 @@ service ChatService {
 message Message {
   User sender = 1;
   string content = 2;
-  google.protobuf.Timestamp time = 3;
+  string time = 3;
 }
 
 message Empty {}

@@ -1,15 +1,13 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
-
 service UserService {
-  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc CreateUser(CreateUserRequest) returns (User);
 }
 
 message User {
   string id = 1;
   string name = 2;
-  google.protobuf.Timestamp create_time = 3;
+  string created_time = 3;
 }
 
 message CreateUserRequest {
