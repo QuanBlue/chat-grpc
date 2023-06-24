@@ -1,19 +1,11 @@
 syntax = "proto3";
 
 service UserService {
-  rpc CreateUser(CreateUserRequest) returns (User);
+  rpc CreateUser(User) returns (User);
 }
 
 message User {
   string id = 1;
   string name = 2;
   string created_time = 3;
-}
-
-message CreateUserRequest {
-  User user = 1;
-}
-
-message CreateUserResponse {
-  string message = 1;
 }

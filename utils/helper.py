@@ -65,3 +65,15 @@ def SliceMessage(msg, content_len):
          sliced_msg.append(msg[start_idx:end_idx])
          
    return sliced_msg
+
+def GetMaxLength(list_str):
+   """Get the max length of the string in the list
+
+   Args:
+       list_str ([string]): list of string
+
+   Returns:
+       int: max length of the string in the list
+   """
+   max_len = max(len(s) for s in list_str)
+   return max_len

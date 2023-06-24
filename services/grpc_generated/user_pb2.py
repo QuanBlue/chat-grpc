@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nuser.proto\"6\n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0c\x63reated_time\x18\x03 \x01(\t\"(\n\x11\x43reateUserRequest\x12\x13\n\x04user\x18\x01 \x01(\x0b\x32\x05.User\"%\n\x12\x43reateUserResponse\x12\x0f\n\x07message\x18\x01 \x01(\t26\n\x0bUserService\x12\'\n\nCreateUser\x12\x12.CreateUserRequest\x1a\x05.Userb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nuser.proto\"6\n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0c\x63reated_time\x18\x03 \x01(\t2)\n\x0bUserService\x12\x1a\n\nCreateUser\x12\x05.User\x1a\x05.Userb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'user_pb2', globals())
@@ -22,10 +22,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   _USER._serialized_start=14
   _USER._serialized_end=68
-  _CREATEUSERREQUEST._serialized_start=70
-  _CREATEUSERREQUEST._serialized_end=110
-  _CREATEUSERRESPONSE._serialized_start=112
-  _CREATEUSERRESPONSE._serialized_end=149
-  _USERSERVICE._serialized_start=151
-  _USERSERVICE._serialized_end=205
+  _USERSERVICE._serialized_start=70
+  _USERSERVICE._serialized_end=111
 # @@protoc_insertion_point(module_scope)

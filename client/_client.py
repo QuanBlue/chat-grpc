@@ -18,6 +18,9 @@ import services.grpc_generated.user_pb2 as user_pb2
 import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 
 
+PADDING = 2
+CHAT_HISTORY = 9999
+
 class ChatClient:
     def __init__(self):
         # Create a gRPC channel
@@ -34,10 +37,31 @@ class ChatClient:
         
         self.number_msg = 0
 
+    def FormatMessages(self, messages):
+        """Add padding to the message name to make it the same length
+
+        Args:
+            messages ([string]): list of messages
+
+        Returns:
+            [string]: list of formatted messages
+        """
+        formatted_messages = []
+
+        senders_name = [message.sender.name for message in messages]
+        max_len = GetMaxLength(senders_name)
+        
+        for message in messages:
+            message.sender.name = message.sender.name.ljust(max_len)
+            formatted_messages.append(message)
+
+        return formatted_messages
+        
     def ShowMessage(self):
+        """Draw Chat box frame + Show the message in the chat box
+        """
         messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
         len_msg = len(list(messages))
-        # print("LOG: number_msg:", self.number_msg,"- len_msg:", len_msg)
         
         if int(self.number_msg) != int(len_msg):
             self.number_msg = len_msg
@@ -50,44 +74,45 @@ class ChatClient:
             welcome_msg = f"WELCOME {self.user_name}! - Your ID is {self.user.id}"
             
             frame_len = len(heading_frame)
-            padding, remainder = PaddingSpace(frame_len, len(welcome_msg))
+            title_padding, remainder = PaddingSpace(frame_len, len(welcome_msg))
             
             print(f" {heading_frame_top}")
             print(f" {heading_frame}")
             print(f" {heading_frame_bot}")
-            print(f" ║"," "*(padding - 1),f"{welcome_msg}"," "*(padding + remainder - 1),"║", sep="")
+            print(f" ║"," "*(title_padding - 1),f"{welcome_msg}"," "*(title_padding + remainder - 1),"║", sep="")
             print(f" ┣","━"*(frame_len - 2),"┫", sep="")
             print(f" ║"," "*(frame_len - 2),"║",sep="")
 
-            # receive all msg from server
+            # receive CHAT_HISTORY msg from server and format it
             messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
+            messages = list(messages)[-CHAT_HISTORY:]
+            # messages = list(messages)
+            messages = self.FormatMessages(messages)
 
             # print all msg
             for message in messages:
                 # if not self.IsLikeMessage(message.msg):
                 msg_info = f"[{message.time}][{message.sender.id}] {message.sender.name}"
                 msg = f"{msg_info}: {message.content}"
-                
-                padding = 2 # can change
-                content_len = frame_len -  padding*2 - len(msg_info) - 4
+                    
+                content_len = frame_len -  PADDING*2 - len(msg_info) - 4
                 
                 msg = SliceMessage(message.content, content_len)
-                    
                 
                 if len(msg) == 1:
-                    left_padding = padding
-                    right_padding = content_len - len(msg[0]) + padding
+                    left_padding = PADDING
+                    right_padding = content_len - len(msg[0]) + PADDING
                     print(f" ║"," "*left_padding,f"{msg_info}: {msg[0]}"," "*right_padding,"║",sep="")
                 else:
                     # print first line
-                    print(f" ║"," "*padding,f"{msg_info}: {msg[0]}"," "*padding,"║",sep="")
+                    print(f" ║"," "*PADDING,f"{msg_info}: {msg[0]}"," "*PADDING,"║",sep="")
                     
                     # print middle lines
                     for i in range(1, len(msg) - 1):
-                        print(f" ║"," "*(padding + len(msg_info) + 2),f"{msg[i]}"," "*padding,"║",sep="")
+                        print(f" ║"," "*(PADDING + len(msg_info) + 2),f"{msg[i]}"," "*PADDING,"║",sep="")
                     
                     # print last line
-                    left_padding = padding + len(msg_info) + 2
+                    left_padding = PADDING + len(msg_info) + 2
                     right_padding = frame_len - left_padding - len(msg[-1]) - 2
                     print(f" ║"," "*left_padding,f"{msg[-1]}"," "*right_padding,"║",sep="")
                     
@@ -102,16 +127,16 @@ class ChatClient:
     def InputAndSendMsg(self):
         ClearScreen()
         
-        print(f"  ______________________________________")
-        print(f" /                                      \\")
-        print(f" |       Welcome to Chat App!      "," "*1,"|")
-        print(f" |                                 "," "*1,"|")
-        print(f" |    Name: {self.user_name}       "," "*(abs(15 - len(self.user_name))),"|")
-        print(f" |    Your ID: {self.user.id}      "," "*13,"|")
-        print(f" |                                 "," "*1,"|")
-        print(f" |      Let's start chatting!      "," "*1,"|")
-        print(f" |                                   "," "*1,"|")
-        print(f" \______________________________________/\n")
+        print(f"  ____________________________________")
+        print(f" /                                    \\")
+        print(f" |       Welcome to Chat App!    "," "*3,"|")
+        print(f" |                               "," "*3,"|")
+        print(f" |    Name: {self.user_name}      "," "*(abs(18 - len(self.user_name))),"|")
+        print(f" |    Your ID: {self.user.id}    "," "*15,"|")
+        print(f" |                               "," "*3,"|")
+        print(f" |      Let's start chatting!    "," "*3,"|")
+        print(f" |                               "," "*3,"|")
+        print(f" \____________________________________/\n")
 
         while True:
             msg_content = input(" > Enter your Message: ").rstrip('\n')

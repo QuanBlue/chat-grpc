@@ -47,8 +47,7 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
         """
         print("--- CREATE USER ---")
         try:
-            print("request:", request.user)
-            user = request.user
+            user = request
 
             # Create a new user
             new_user = user_pb2.User()
