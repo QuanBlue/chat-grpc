@@ -298,11 +298,12 @@ User[<user_id>] is ALLOWED to send message
 -  [ ] UI
    -  [x] Theme
    -  [ ] Feature customize UI (padding, table width,...) - When user start chat
-      -  [x] Padding
+      -  [x] Padding (PADDING)
       -  [ ] User name length
       -  [ ] User display color
+      -  [x] Frame length (FRAME_LENGTH)
       -  [x] Display time
-      -  [x] Chat history
+      -  [x] Chat history (CHAT_HISTORY)
 -  [x] Communication
 -  [x] Multi-threading (client)
 -  [ ] Chatting rule

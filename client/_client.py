@@ -20,6 +20,7 @@ import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 
 PADDING = 2
 CHAT_HISTORY = 9999
+FRAME_LENGTH = 79
 
 class ChatClient:
     def __init__(self):
@@ -59,6 +60,19 @@ class ChatClient:
         
     def ShowMessage(self):
         """Draw Chat box frame + Show the message in the chat box
+                                ┏━━━━━━━━━━━━━━━━━━━┓"    
+            ╔═══════════════════╣  CHAT BOX - gRPC  ╠═══════════════════╗
+            ║                   ┗━━━━━━━━━━━━━━━━━━━┛                   ║
+            ║               WELCOME hi! - Your ID is 14                 ║
+            ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+            ║                                                           ║
+            ║  [19:54:51][01] Ngoc Lien : hi                            ║
+            ║  [20:05:00][02] Thanh Quan: hello there                   ║
+            ║  [20:05:02][02] Thanh Quan: what's up                     ║
+            ║  [20:05:07][03] Thanh Dat : alo                           ║
+            ║                                                           ║
+            ╚═══════════════════════════════════════════════════════════╝
+    
         """
         messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
         len_msg = len(list(messages))
@@ -68,20 +82,16 @@ class ChatClient:
             
             ClearScreen()
             
-            heading_frame_top =  "                   ┏━━━━━━━━━━━━━━━━━┓"    
-            heading_frame     =  "╔══════════════════╣ CHAT BOX - gRPC ╠══════════════════╗"
-            heading_frame_bot =  "║                  ┗━━━━━━━━━━━━━━━━━┛                  ║"    
+            title_padding, remainder = PaddingSpace(FRAME_LENGTH, 21)
+            print(f"  "," "*title_padding,"┏━━━━━━━━━━━━━━━━━━━┓", sep="")
+            print(f" ╔","═"*title_padding,"╣  CHAT BOX - gRPC  ╠","═"*(title_padding + remainder - 2),"╗", sep="")
+            print(f" ║"," "*title_padding,"┗━━━━━━━━━━━━━━━━━━━┛"," "*(title_padding + remainder - 2),"║", sep="")
+            
             welcome_msg = f"WELCOME {self.user_name}! - Your ID is {self.user.id}"
-            
-            frame_len = len(heading_frame)
-            title_padding, remainder = PaddingSpace(frame_len, len(welcome_msg))
-            
-            print(f" {heading_frame_top}")
-            print(f" {heading_frame}")
-            print(f" {heading_frame_bot}")
+            title_padding, remainder = PaddingSpace(FRAME_LENGTH, len(welcome_msg))
             print(f" ║"," "*(title_padding - 1),f"{welcome_msg}"," "*(title_padding + remainder - 1),"║", sep="")
-            print(f" ┣","━"*(frame_len - 2),"┫", sep="")
-            print(f" ║"," "*(frame_len - 2),"║",sep="")
+            print(f" ┣","━"*(FRAME_LENGTH - 2),"┫", sep="")
+            print(f" ║"," "*(FRAME_LENGTH - 2),"║",sep="")
 
             # receive CHAT_HISTORY msg from server and format it
             messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
@@ -95,7 +105,7 @@ class ChatClient:
                 msg_info = f"[{message.time}][{message.sender.id}] {message.sender.name}"
                 msg = f"{msg_info}: {message.content}"
                     
-                content_len = frame_len -  PADDING*2 - len(msg_info) - 4
+                content_len = FRAME_LENGTH -  PADDING*2 - len(msg_info) - 4
                 
                 msg = SliceMessage(message.content, content_len)
                 
@@ -113,14 +123,14 @@ class ChatClient:
                     
                     # print last line
                     left_padding = PADDING + len(msg_info) + 2
-                    right_padding = frame_len - left_padding - len(msg[-1]) - 2
+                    right_padding = FRAME_LENGTH - left_padding - len(msg[-1]) - 2
                     print(f" ║"," "*left_padding,f"{msg[-1]}"," "*right_padding,"║",sep="")
                     
              #9   
                 
             
-            print(f" ║"," "*(frame_len - 2),"║", sep="")
-            print(f" ╚","═"*(frame_len - 2),"╝", sep="")
+            print(f" ║"," "*(FRAME_LENGTH - 2),"║", sep="")
+            print(f" ╚","═"*(FRAME_LENGTH - 2),"╝", sep="")
             
             print("\n > Enter your Message:")
             
