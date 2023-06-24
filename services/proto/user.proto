@@ -8,4 +8,5 @@ message User {
   string id = 1;
   string name = 2;
   string created_time = 3;
+  string color = 4;
 }

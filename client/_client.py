@@ -21,6 +21,7 @@ import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 PADDING = 2
 CHAT_HISTORY = 9999
 FRAME_LENGTH = 79
+USER_LENGTH = 10
 
 class ChatClient:
     def __init__(self):
@@ -38,6 +39,76 @@ class ChatClient:
         
         self.number_msg = 0
 
+    def FormatName(self, name):
+        """Format the name to be capitalized (Title Case)
+        and abbreviate name fit the USER_LENGTH
+
+        Args:
+            name (string): The name to be formatted
+
+        Returns:
+            string: The formatted name
+        """
+        words = name.strip().split()
+        formatted_words = []
+
+        for word in words:
+            formatted_word = word.capitalize()  
+            formatted_words.append(formatted_word)
+
+        formatted_name = " ".join(formatted_words)
+
+        return self.AbbreviateName(formatted_name, USER_LENGTH)
+    
+    def AbbreviateName(self, name, max_length):
+        """Abbreviate the name to fit the max_length
+        First time : Nguyen Thanh Quan -> Nguyen T. Quan
+        Second time: Nguyen Thanh Quan -> N. T. Quan
+        Third time : Nguyen Thanh Quan -> NTQ
+
+        Args:
+            name (string): The name to be abbreviated
+            max_length (int): The max length of the name
+
+        Returns:
+            string: The abbreviated name
+        """
+        words = name.split() 
+        abbreviation = []
+
+        # Abbreviate first time 
+        # Ex: Nguyen Thanh Quan -> Nguyen T. Quan
+        for i, word in enumerate(words):
+            if i == 0 or i == len(words) - 1:
+                abbreviation.append(word)
+            else:
+                abbreviation.append(word[0].upper()+".")
+             
+        # calculate the length of abbreviation
+        abbreviation_length = sum(len(s) for s in abbreviation)
+        
+        if abbreviation_length <= max_length:
+            abbreviation_name = " ".join(abbreviation)
+            return abbreviation_name
+        else:
+            # Abbreviate second time   
+            # Ex: Nguyen Thanh Quan -> N. T. Quan
+            abbreviation[0] = abbreviation[0][0]+"."    
+            
+            # calculate the length of abbreviation
+            abbreviation_length = sum(len(s) for s in abbreviation)
+            
+            if abbreviation_length <= max_length:
+                abbreviation_name = " ".join(abbreviation)
+                return abbreviation_name
+            else:
+                # Abbreviate third time   
+                # Ex: Nguyen Thanh Quan -> NTQ
+                abbreviation_name = [abbreviation[i][0] for i in range(len(abbreviation))]    
+                abbreviation_name = "".join(abbreviation_name)
+                return abbreviation_name
+        
+   
     def FormatMessages(self, messages):
         """Add padding to the message name to make it the same length
 
@@ -48,31 +119,33 @@ class ChatClient:
             [string]: list of formatted messages
         """
         formatted_messages = []
-
-        senders_name = [message.sender.name for message in messages]
+        senders_name = [self.FormatName(message.sender.name) for message in messages]
+        
         max_len = GetMaxLength(senders_name)
         
-        for message in messages:
-            message.sender.name = message.sender.name.ljust(max_len)
+        for i,message in enumerate(messages):
+            message.sender.name = senders_name[i].ljust(max_len)
             formatted_messages.append(message)
 
+
         return formatted_messages
-        
+     
+   
+ 
     def ShowMessage(self):
         """Draw Chat box frame + Show the message in the chat box
-                                ┏━━━━━━━━━━━━━━━━━━━┓"    
-            ╔═══════════════════╣  CHAT BOX - gRPC  ╠═══════════════════╗
-            ║                   ┗━━━━━━━━━━━━━━━━━━━┛                   ║
-            ║               WELCOME hi! - Your ID is 14                 ║
-            ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-            ║                                                           ║
-            ║  [19:54:51][01] Ngoc Lien : hi                            ║
-            ║  [20:05:00][02] Thanh Quan: hello there                   ║
-            ║  [20:05:02][02] Thanh Quan: what's up                     ║
-            ║  [20:05:07][03] Thanh Dat : alo                           ║
-            ║                                                           ║
-            ╚═══════════════════════════════════════════════════════════╝
-    
+                            ┏━━━━━━━━━━━━━━━━━━━┓"    
+        ╔═══════════════════╣  CHAT BOX - gRPC  ╠═══════════════════╗
+        ║                   ┗━━━━━━━━━━━━━━━━━━━┛                   ║
+        ║               WELCOME hi! - Your ID is 14                 ║
+        ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+        ║                                                           ║
+        ║  [19:54:51][01] Ngoc Lien : hi                            ║
+        ║  [20:05:00][02] Thanh Quan: hello there                   ║
+        ║  [20:05:02][02] Thanh Quan: what's up                     ║
+        ║  [20:05:07][03] Thanh Dat : alo                           ║
+        ║                                                           ║
+        ╚═══════════════════════════════════════════════════════════╝
         """
         messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
         len_msg = len(list(messages))
@@ -99,7 +172,7 @@ class ChatClient:
             # messages = list(messages)
             messages = self.FormatMessages(messages)
 
-            # print all msg
+            # print msg
             for message in messages:
                 # if not self.IsLikeMessage(message.msg):
                 msg_info = f"[{message.time}][{message.sender.id}] {message.sender.name}"

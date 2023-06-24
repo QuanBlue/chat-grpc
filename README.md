@@ -299,8 +299,8 @@ User[<user_id>] is ALLOWED to send message
    -  [x] Theme
    -  [ ] Feature customize UI (padding, table width,...) - When user start chat
       -  [x] Padding (PADDING)
-      -  [ ] User name length
-      -  [ ] User display color
+      -  [x] User name length (USER_LENGTH)
+      -  [ ] User display color (USER_COLOR)
       -  [x] Frame length (FRAME_LENGTH)
       -  [x] Display time
       -  [x] Chat history (CHAT_HISTORY)
