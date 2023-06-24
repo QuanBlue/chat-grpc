@@ -44,9 +44,9 @@ class ChatClient:
             
             ClearScreen()
             
-            heading_frame_top =  "                      ┏━━━━━━━━━━━━━━━━━━━━━┓"    
-            heading_frame     =  "╔═════════════════════╣   CHAT BOX - gRPC   ╠═════════════════════╗"
-            heading_frame_bot =  "║                     ┗━━━━━━━━━━━━━━━━━━━━━┛                     ║"    
+            heading_frame_top =  "                   ┏━━━━━━━━━━━━━━━━━┓"    
+            heading_frame     =  "╔══════════════════╣ CHAT BOX - gRPC ╠══════════════════╗"
+            heading_frame_bot =  "║                  ┗━━━━━━━━━━━━━━━━━┛                  ║"    
             welcome_msg = f"WELCOME {self.user_name}! - Your ID is {self.user.id}"
             
             frame_len = len(heading_frame)
@@ -65,9 +65,34 @@ class ChatClient:
             # print all msg
             for message in messages:
                 # if not self.IsLikeMessage(message.msg):
-                left_padding = 2
-                msg = f"[{message.time}][{message.sender.id}] {message.sender.name}: {message.content}"
-                print(f" ║"," "*left_padding,f"{msg}"," "*(frame_len -  left_padding - len(msg) - 2),"║",sep="")
+                msg_info = f"[{message.time}][{message.sender.id}] {message.sender.name}"
+                msg = f"{msg_info}: {message.content}"
+                
+                padding = 2 # can change
+                content_len = frame_len -  padding*2 - len(msg_info) - 4
+                
+                msg = SliceMessage(message.content, content_len)
+                    
+                
+                if len(msg) == 1:
+                    left_padding = padding
+                    right_padding = content_len - len(msg[0]) + padding
+                    print(f" ║"," "*left_padding,f"{msg_info}: {msg[0]}"," "*right_padding,"║",sep="")
+                else:
+                    # print first line
+                    print(f" ║"," "*padding,f"{msg_info}: {msg[0]}"," "*padding,"║",sep="")
+                    
+                    # print middle lines
+                    for i in range(1, len(msg) - 1):
+                        print(f" ║"," "*(padding + len(msg_info) + 2),f"{msg[i]}"," "*padding,"║",sep="")
+                    
+                    # print last line
+                    left_padding = padding + len(msg_info) + 2
+                    right_padding = frame_len - left_padding - len(msg[-1]) - 2
+                    print(f" ║"," "*left_padding,f"{msg[-1]}"," "*right_padding,"║",sep="")
+                    
+             #9   
+                
             
             print(f" ║"," "*(frame_len - 2),"║", sep="")
             print(f" ╚","═"*(frame_len - 2),"╝", sep="")
@@ -77,15 +102,14 @@ class ChatClient:
     def InputAndSendMsg(self):
         ClearScreen()
         
-        print("(abs(28 - len(self.user_name))):", (abs(28 - len(self.user_name))))
         print(f"  ______________________________________")
         print(f" /                                      \\")
-        print(f" |         Welcome to Chat App!      "," "*1,"|")
-        print(f" |                                   "," "*1,"|")
-        print(f" |      Name: {self.user_name}       "," "*(abs(17 - len(self.user_name))),"|")
-        print(f" |      Your ID: {self.user.id}      "," "*13,"|")
-        print(f" |                                   "," "*1,"|")
-        print(f" |        Let's start chatting!      "," "*1,"|")
+        print(f" |       Welcome to Chat App!      "," "*1,"|")
+        print(f" |                                 "," "*1,"|")
+        print(f" |    Name: {self.user_name}       "," "*(abs(15 - len(self.user_name))),"|")
+        print(f" |    Your ID: {self.user.id}      "," "*13,"|")
+        print(f" |                                 "," "*1,"|")
+        print(f" |      Let's start chatting!      "," "*1,"|")
         print(f" |                                   "," "*1,"|")
         print(f" \______________________________________/\n")
 

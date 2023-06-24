@@ -19,10 +19,49 @@ def GetCurrentTime():
 
 
 def ClearScreen():
+   """Clear the screen
+   """
    os.system('cls' if os.name == 'nt' else 'clear')
    
 def PaddingSpace(base_len, string_len):
+   """_summary_
+
+   Args:
+      base_len (int): length of the base string
+      string_len (int): length of the string to be padded
+
+   Returns:
+      padding: padding for the string
+      remainder: remainder of the padding
+   """
    padding = int((base_len - string_len) / 2)
    remainder = base_len - int((base_len - string_len) / 2)*2 - string_len
    
    return padding, remainder
+
+def SliceMessage(msg, content_len):
+   """Slice the message to fit the frame
+
+   Args:
+       msg (string): message to be sliced
+       content_len (int): length of the message after sliced
+
+   Returns:
+       [string]: sliced message
+   """
+   sliced_msg = []
+   
+   start_idx = 0
+   end_idx = start_idx
+   msg_len = len(msg)
+   
+   if msg_len < content_len:
+      sliced_msg.append(msg)
+   else:
+      while end_idx < msg_len:
+         start_idx = end_idx
+         end_idx += content_len
+         
+         sliced_msg.append(msg[start_idx:end_idx])
+         
+   return sliced_msg

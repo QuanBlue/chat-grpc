@@ -59,6 +59,7 @@
 -  [:page_facing_up: Log](#page_facing_up-log)
    -  [Log file](#log-file)
    -  [Content](#content)
+-  [Roadmap](#roadmap)
 -  [:busts_in_silhouette: Contributors](#busts_in_silhouette-contributors)
 -  [:sparkles: Credits](#sparkles-credits)
 -  [:scroll: License](#scroll-license)
@@ -291,6 +292,18 @@ The client is allowed to send messages:
 ```
 User[<user_id>] is ALLOWED to send message
 ```
+
+# Roadmap
+
+-  [ ] UI
+   -  [x] Theme
+   -  [ ] Feature customize UI (padding, table width,...) - When user start chat
+-  [x] Communication
+-  [x] Multi-threading (client)
+-  [ ] Chatting rule
+   -  [ ] At least 2 LIKE (from 2 others) to continue chat
+-  [ ] Demo
+-  [ ] Documentation
 
 # :busts_in_silhouette: Contributors
 
