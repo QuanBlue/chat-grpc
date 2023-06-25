@@ -21,8 +21,16 @@ import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 
 PADDING = 2
 CHAT_HISTORY = 9999
-FRAME_LENGTH = 79
+FRAME_LENGTH = 80
 USER_LENGTH = 10
+COMMAND = {
+    ':like'     : ":like <user_id> - like for user's message",
+    ':name_len' : ":name_len <limit_length> - limit the length of the user name. Default is 10",
+    ":frame_len": ":frame_len <limit_length> - limit the length of the frame. Default is 80",
+    ":padding"  : ":padding <limit_length> - padding of the content in frame. Default is 2",
+    ":history"  : ":history <limit_length> - limit the number of messages in the chat history. Default is 9999",
+    ":help"     : ":help - show all commands with description",
+}
 
 class ChatClient:
     def __init__(self):
@@ -131,9 +139,8 @@ class ChatClient:
 
         return formatted_messages
      
-   
- 
-    def ShowMessage(self):
+     
+    def DrawAppUI(self):
         """Draw Chat box frame + Show the message in the chat box
                             ┏━━━━━━━━━━━━━━━━━━━┓"    
         ╔═══════════════════╣  CHAT BOX - gRPC  ╠═══════════════════╗
@@ -148,65 +155,65 @@ class ChatClient:
         ║                                                           ║
         ╚═══════════════════════════════════════════════════════════╝
         """
+        ClearScreen()
+                    
+        title_padding, remainder = PaddingSpace(FRAME_LENGTH, 21)
+        print(f"  "," "*title_padding,"┏━━━━━━━━━━━━━━━━━━━┓", sep="")
+        print(f" ╔","═"*title_padding,"╣  CHAT BOX - gRPC  ╠","═"*(title_padding + remainder - 2),"╗", sep="")
+        print(f" ║"," "*title_padding,"┗━━━━━━━━━━━━━━━━━━━┛"," "*(title_padding + remainder - 2),"║", sep="")
+        
+        welcome_msg = f"WELCOME {self.user_name}! - Your ID is {self.user.id}"
+        title_padding, remainder = PaddingSpace(FRAME_LENGTH, len(welcome_msg))
+        print(f" ║"," "*(title_padding - 1),f"{welcome_msg}"," "*(title_padding + remainder - 1),"║", sep="")
+        print(f" ┣","━"*(FRAME_LENGTH - 2),"┫", sep="")
+        print(f" ║"," "*(FRAME_LENGTH - 2),"║",sep="")
+
+        # receive CHAT_HISTORY msg from server and format it
+        messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
+        messages = list(messages)[-CHAT_HISTORY:]
+        # messages = list(messages)
+        messages = self.FormatMessages(messages)
+
+        # print msg
+        for message in messages:
+            # if not self.IsLikeMessage(message.msg):
+            msg_info = f"[{message.time}][{message.sender.id}] {message.sender.name}"
+            msg = f"{msg_info}: {message.content}"
+                
+            content_len = FRAME_LENGTH -  PADDING*2 - len(msg_info) - 4
+            
+            msg = SliceMessage(message.content, content_len)
+            
+            if len(msg) == 1:
+                left_padding = PADDING
+                right_padding = content_len - len(msg[0]) + PADDING
+                print(f" ║"," "*left_padding,f"{msg_info}: {msg[0]}"," "*right_padding,"║",sep="")
+            else:
+                # print first line
+                print(f" ║"," "*PADDING,f"{msg_info}: {msg[0]}"," "*PADDING,"║",sep="")
+                
+                # print middle lines
+                for i in range(1, len(msg) - 1):
+                    print(f" ║"," "*(PADDING + len(msg_info) + 2),f"{msg[i]}"," "*PADDING,"║",sep="")
+                
+                # print last line
+                left_padding = PADDING + len(msg_info) + 2
+                right_padding = FRAME_LENGTH - left_padding - len(msg[-1]) - 2
+                print(f" ║"," "*left_padding,f"{msg[-1]}"," "*right_padding,"║",sep="")
+                
+        print(f" ║"," "*(FRAME_LENGTH - 2),"║", sep="")
+        print(f" ╚","═"*(FRAME_LENGTH - 2),"╝", sep="")
+        
+        print("\n > Enter your Message:")
+ 
+    def ShowMessage(self):
         messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
         len_msg = len(list(messages))
         
         if int(self.number_msg) != int(len_msg):
             self.number_msg = len_msg
             
-            ClearScreen()
-            
-            title_padding, remainder = PaddingSpace(FRAME_LENGTH, 21)
-            print(f"  "," "*title_padding,"┏━━━━━━━━━━━━━━━━━━━┓", sep="")
-            print(f" ╔","═"*title_padding,"╣  CHAT BOX - gRPC  ╠","═"*(title_padding + remainder - 2),"╗", sep="")
-            print(f" ║"," "*title_padding,"┗━━━━━━━━━━━━━━━━━━━┛"," "*(title_padding + remainder - 2),"║", sep="")
-            
-            welcome_msg = f"WELCOME {self.user_name}! - Your ID is {self.user.id}"
-            title_padding, remainder = PaddingSpace(FRAME_LENGTH, len(welcome_msg))
-            print(f" ║"," "*(title_padding - 1),f"{welcome_msg}"," "*(title_padding + remainder - 1),"║", sep="")
-            print(f" ┣","━"*(FRAME_LENGTH - 2),"┫", sep="")
-            print(f" ║"," "*(FRAME_LENGTH - 2),"║",sep="")
-
-            # receive CHAT_HISTORY msg from server and format it
-            messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
-            messages = list(messages)[-CHAT_HISTORY:]
-            # messages = list(messages)
-            messages = self.FormatMessages(messages)
-
-            # print msg
-            for message in messages:
-                # if not self.IsLikeMessage(message.msg):
-                msg_info = f"[{message.time}][{message.sender.id}] {message.sender.name}"
-                msg = f"{msg_info}: {message.content}"
-                    
-                content_len = FRAME_LENGTH -  PADDING*2 - len(msg_info) - 4
-                
-                msg = SliceMessage(message.content, content_len)
-                
-                if len(msg) == 1:
-                    left_padding = PADDING
-                    right_padding = content_len - len(msg[0]) + PADDING
-                    print(f" ║"," "*left_padding,f"{msg_info}: {msg[0]}"," "*right_padding,"║",sep="")
-                else:
-                    # print first line
-                    print(f" ║"," "*PADDING,f"{msg_info}: {msg[0]}"," "*PADDING,"║",sep="")
-                    
-                    # print middle lines
-                    for i in range(1, len(msg) - 1):
-                        print(f" ║"," "*(PADDING + len(msg_info) + 2),f"{msg[i]}"," "*PADDING,"║",sep="")
-                    
-                    # print last line
-                    left_padding = PADDING + len(msg_info) + 2
-                    right_padding = FRAME_LENGTH - left_padding - len(msg[-1]) - 2
-                    print(f" ║"," "*left_padding,f"{msg[-1]}"," "*right_padding,"║",sep="")
-                    
-             #9   
-                
-            
-            print(f" ║"," "*(FRAME_LENGTH - 2),"║", sep="")
-            print(f" ╚","═"*(FRAME_LENGTH - 2),"╝", sep="")
-            
-            print("\n > Enter your Message:")
+            self.DrawAppUI()
             
     def InputAndSendMsg(self):
         ClearScreen()
@@ -225,10 +232,75 @@ class ChatClient:
         while True:
             msg_content = input(" > Enter your Message: ").rstrip('\n')
             
+            command, args = GetCommand(msg_content, COMMAND)
+            if command:
+                self.ExecuteCommand(command, args)
+                     
             # send msg to server
             message = chat_pb2.Message(sender=self.user, content=msg_content)
             response = self.chat_stub.SendMessage(message)
 
+    def ExecuteCommand(self,command, args):
+        # like
+        if command == ":like":
+            pass
+        
+        # name_len
+        elif command == ":name_len":
+            try:
+                global USER_LENGTH
+                USER_LENGTH = int(args[0])
+                self.DrawAppUI()
+            except Exception as error:
+                print(" [ERROR] :user_len error -", error)
+                
+        # frame_len
+        elif command == ":frame_len":
+            try:
+                global FRAME_LENGTH
+                FRAME_LENGTH = int(args[0])
+                self.DrawAppUI()
+            except Exception as error:
+                print(" [ERROR] :frame_len error -", error)
+                
+        # padding
+        elif command == ":padding":
+            try:
+                if int(args[0]) < 0 or int(args[0]) > 10:
+                    raise Exception("invalid argument [padding must be >= 0 and <= 10]")
+                
+                global PADDING
+                PADDING = int(args[0])
+                self.DrawAppUI()
+            except Exception as error:
+                print(" [ERROR] :padding error -",error)
+        
+        # history                 
+        elif command == ":history":
+            try:
+                global CHAT_HISTORY
+                CHAT_HISTORY = int(args[0])
+                self.DrawAppUI()
+            except Exception as error:
+                print(" [ERROR] :history error -", error)
+                
+        # help
+        elif command == ":help":
+            try:
+                print() 
+                            
+                list_cmd = [value.split(" - ")[0] for key, value in COMMAND.items()]
+                max_len_list_cmd = GetMaxLength(list_cmd)
+                            
+                for key, value in COMMAND.items():
+                    cmd = value.split(" - ")[0]
+                    desc = value.split(" - ")[1]
+                    print(f" {cmd.ljust(max_len_list_cmd)}","  ",f"{desc}", sep="")
+                
+                print()
+            except Exception as error:
+                print(" [ERROR] :help error -", error)
+    
     def run(self):
         threading.Thread(target=self.InputAndSendMsg, args=()).start()
         while True:
@@ -238,45 +310,3 @@ class ChatClient:
 if __name__ == '__main__':
     client = ChatClient()
     client.run()
-
-#  ╔══════════════════════ ✿CHAT BOX - gRPC ✿══════════════════════╗
-#  ║                Welcome, quan! - Your ID is 01                  ║
-#  ║ ───────────────────────────────────────────────────────────────║                                                              ║
-#  ║ [18:38:33] 01: djd                                             ║
-#  ║ [18:38:34] 01: dj                                              ║
-#  ║                                                                ║
-#  ╚════════════════════════════════════════════════════════════════╝
-#
-#  Enter your message:
-
-
-# --------------------------------------------
-#  ╔═══════════════════════ CHAT BOX - gRPC ════════════════════════╗
-#  ║                                                                ║
-#  ║ [18:38:33] 01: djd                                             ║
-#  ║ [18:38:34] 01: dj                                              ║
-#  ║                                                                ║
-#  ╚════════════════════════════════════════════════════════════════╝
-
-#  Welcome, quan! - Your ID is 01
-#  Enter your message:
-
-
-# --------------------------------------------
-#   ╔════════════════════════════════════════════════════════╗
-#   ║                 ۞ CHAT APPLICATION ۞                  ║
-#   ║            WELCOME quan! - your ID is 01               ║
-#   ╟────────────────────────────────────────────────────────╢
-#   ║                                                        ║
-#   ║ [18:38:33] 01: Hello there!                            ║
-#   ║ [18:38:34] 01: How are you?                            ║
-#   ║                                                        ║
-#   ╚════════════════════════════════════════════════════════╝
-
-# --------------------------------------------
-#   ─────────────✿ CHAT APPLICATION ✿─────────────
-#           WELCOME quan! - your ID is 01
-#   ──────────────────────────────────────────────
-#    [18:38:33]    01   : Hello there!
-#    [18:38:34]    01   : How are you?
-#   ──────────────────────────────────────────────

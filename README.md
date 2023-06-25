@@ -295,17 +295,16 @@ User[<user_id>] is ALLOWED to send message
 
 # Roadmap
 
--  [ ] UI
+-  [x] UI
    -  [x] Theme
-   -  [ ] Feature customize UI (padding, table width,...) - When user start chat
+   -  [x] Feature customize UI (padding, table width,...) - When user start chat
       -  [x] Padding (PADDING)
       -  [x] User name length (USER_LENGTH)
-      -  [ ] User display color (USER_COLOR)
       -  [x] Frame length (FRAME_LENGTH)
       -  [x] Display time
       -  [x] Chat history (CHAT_HISTORY)
 -  [x] Communication
--  [ ] Logs
+-  [x] Logs
 -  [ ] Install dependency (requirements.txt)
 -  [x] Multi-threading (client)
 -  [ ] Chatting rule

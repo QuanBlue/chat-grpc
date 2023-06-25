@@ -73,3 +73,20 @@ def GetMaxLength(list_str):
    """
    max_len = max(len(s) for s in list_str)
    return max_len
+
+def GetCommand(str, list_command):
+   """Get the command from the string
+
+   Args:
+       str (string): string to be parsed
+
+   Returns:
+       string: command
+   """
+   command = str.split(' ')[0]
+   args = str.split(' ')[1:]
+   
+   if command in list_command:
+      return command, args
+   else:
+      return False, None
