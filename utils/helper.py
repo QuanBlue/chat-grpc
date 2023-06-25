@@ -8,12 +8,8 @@ def GetCurrentTime():
    Returns:	
       String: The current time in the format HH:MM:SS
    """
-   print("--- GET CURRENT TIME ---")
-   
    current_time = datetime.datetime.now()
    formatted_time = current_time.strftime("%H:%M:%S")
-   
-   print("formatted_time:", formatted_time)
    
    return formatted_time
 

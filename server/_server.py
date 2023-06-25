@@ -16,28 +16,33 @@ from services.grpc_generated import chat_pb2_grpc
 from server.services_class.user_service import UserServiceServicer 
 from server.services_class.chat_service import ChatServiceServicer 
 
+
+from utils.logger import *
+
 """
 Main entry point for the gRPC server.
 """
 def Server():
-	# create a gRPC server
-	server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+   logger = Logger()
+   
+   # create a gRPC server
+   server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 	
 	# add servicers to the server
-	chat_pb2_grpc.add_ChatServiceServicer_to_server(
+   chat_pb2_grpc.add_ChatServiceServicer_to_server(
 		ChatServiceServicer(), server)
-	user_pb2_grpc.add_UserServiceServicer_to_server(
+   user_pb2_grpc.add_UserServiceServicer_to_server(
 		UserServiceServicer(), server)
 	
 	# listen on port 50051
-	server.add_insecure_port('[::]:50051')
+   server.add_insecure_port('[::]:50051')
 
-	# start gRPC server
-	server.start()
-	print("Server started")
+   # start gRPC server
+   server.start()
+   logger.info('Server started on port 50051...')
 
 	# since server.start() will not block,
-	server.wait_for_termination()
+   server.wait_for_termination()
 
 
 if __name__ == '__main__':

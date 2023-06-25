@@ -7,11 +7,14 @@ from datetime import datetime
 import services.grpc_generated.user_pb2 as user_pb2
 import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 
-from helper import *
+from utils.helper import *
+from utils.logger import *
 
 
 class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
     def __init__(self):
+        self.logger = Logger()
+        
         self.users = []
         self.max_user_id = 0
 
@@ -22,7 +25,6 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
         Returns: 
                 string: The new user ID.
         """
-        print("--- GENERATE USER ID ---")
         new_id = str(self.max_user_id + 1)
 
         # Add a leading zero to the user ID if it is less than 10
@@ -31,7 +33,6 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
 
         self.max_user_id += 1
 
-        print("New id:", new_id)
         return new_id
 
     # complete this function
@@ -45,7 +46,6 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
         Returns:	
                 string: The CreateUserResponse message
         """
-        print("--- CREATE USER ---")
         try:
             user = request
 
@@ -58,10 +58,11 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
             
             # Add the new_user to the list
             self.users.append(new_user)
-
+            
+            self.logger.info(f"User '{new_user.name}' with ID '{new_user.id}' created successfully!")            
             return new_user
         except:
             # Prepare the response
             new_user = user_pb2.CreateUserResponse()
-            print(f"User '{new_user.name}' with ID '{new_user.id}' created Fail!")
+            self.logger.error(f"User '{new_user.name}' with ID '{new_user.id}' created Fail!")            
 

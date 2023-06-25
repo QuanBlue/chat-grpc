@@ -9,7 +9,8 @@ sys.path.append(root_dir)
 sys.path.append(grpc_gen_dir)
 sys.path.append(utils_dir)
 
-from helper import *
+# from helper import *
+from utils.helper import *
 
 import services.grpc_generated.chat_pb2 as chat_pb2
 import services.grpc_generated.chat_pb2_grpc as chat_pb2_grpc

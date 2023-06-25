@@ -305,6 +305,8 @@ User[<user_id>] is ALLOWED to send message
       -  [x] Display time
       -  [x] Chat history (CHAT_HISTORY)
 -  [x] Communication
+-  [ ] Logs
+-  [ ] Install dependency (requirements.txt)
 -  [x] Multi-threading (client)
 -  [ ] Chatting rule
    -  [ ] At least 2 LIKE (from 2 others) to continue chat
