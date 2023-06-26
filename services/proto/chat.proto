@@ -1,10 +1,13 @@
 syntax = "proto3";
 
 import "user.proto";
+import "share_type.proto";
 
 service ChatService {
-  rpc SendMessage(Message) returns (Message) {}
+  rpc SendMessage(Message) returns (SendMessageResponse) {}
   rpc ReceiveMessage(Empty) returns (stream Message) {}
+
+  rpc HandleLikeMsg(LikeRequest) returns (LikeResponse) {}
 }
 
 message Message {
@@ -13,4 +16,16 @@ message Message {
   string time = 3;
 }
 
-message Empty {}
+message LikeRequest {
+  User sender = 1;
+  string receiver_id = 2;
+}
+  
+message LikeResponse {
+  string response = 1;
+}
+
+message SendMessageResponse {
+  bool success = 1;
+}
+

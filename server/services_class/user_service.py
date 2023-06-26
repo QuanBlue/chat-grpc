@@ -55,7 +55,9 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
             new_user.CopyFrom(user)
             new_user.id = self.GenerateUserId()
             new_user.created_time = GetCurrentTime()
-            
+            new_user.like.from_user.extend([])
+            new_user.like.is_allow = True
+                
             # Add the new_user to the list
             self.users.append(new_user)
             
@@ -66,3 +68,32 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
             new_user = user_pb2.CreateUserResponse()
             self.logger.error(f"User '{new_user.name}' with ID '{new_user.id}' created Fail!")            
 
+
+    def UpdateUser(self, request, context):
+        updated_user = request
+        
+        for user in self.users:
+            if user.id == updated_user.id:
+                user.CopyFrom(updated_user)
+                self.logger.info(f"User '{user.name}' with ID '{user.id}' updated successfully!")
+                # print("user.from_user: ", user.like.from_user)
+                # print("user.like.is_allow: ", user.like.is_allow)
+        return updated_user
+
+
+    def GetUsers(self, request, context):
+        """Get all users
+
+        Args:
+                request (Empty): The GetUsersRequest message
+                context: The grpc request context
+
+        Returns:	
+                User (stream User): The user list
+        """
+        try:
+            for user in self.users:
+                yield user
+        except:
+            self.logger.error(f"Error getting users!")
+            return user_pb2.User()

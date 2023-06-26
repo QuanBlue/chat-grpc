@@ -11,6 +11,9 @@ sys.path.append(utils_dir)
 
 # from helper import *
 from utils.helper import *
+from utils.logger import *
+
+import services.grpc_generated.share_type_pb2 as share_type_pb2
 
 import services.grpc_generated.chat_pb2 as chat_pb2
 import services.grpc_generated.chat_pb2_grpc as chat_pb2_grpc
@@ -34,6 +37,8 @@ COMMAND = {
 
 class ChatClient:
     def __init__(self):
+        self.logger = Logger()
+        
         # Create a gRPC channel
         self.channel = grpc.insecure_channel('localhost:50051')
 
@@ -170,7 +175,7 @@ class ChatClient:
         print(f" ║"," "*(FRAME_LENGTH - 2),"║",sep="")
 
         # receive CHAT_HISTORY msg from server and format it
-        messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
+        messages = self.chat_stub.ReceiveMessage(share_type_pb2.Empty())
         messages = list(messages)[-CHAT_HISTORY:]
         # messages = list(messages)
         messages = self.FormatMessages(messages)
@@ -209,7 +214,7 @@ class ChatClient:
 
 
     def ShowMessage(self):
-        messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
+        messages = self.chat_stub.ReceiveMessage(share_type_pb2.Empty())
         len_msg = len(list(messages))
         
         if self.is_show_welcome == False:
@@ -221,20 +226,31 @@ class ChatClient:
                 # Draw UI                
                 self.DrawAppUI()
             
-            
+    def BlockSendMessage(self):
+        like  = user_pb2.Like()
+        like.from_user.extend([])
+        like.is_allow = False
+        
+        self.user.like.CopyFrom(like)
+        
+        self.user_stub.UpdateUser(self.user)
+        
     def InputAndSendMsg(self):
         ClearScreen()
         
-        print(f"  ____________________________________")
-        print(f" /                                    \\")
-        print(f" |       Welcome to Chat App!    "," "*3,"|")
-        print(f" |                               "," "*3,"|")
-        print(f" |    Name: {self.user_name}      "," "*(abs(18 - len(self.user_name))),"|")
-        print(f" |    Your ID: {self.user.id}    "," "*15,"|")
-        print(f" |                               "," "*3,"|")
-        print(f" |      Let's start chatting!    "," "*3,"|")
-        print(f" |                               "," "*3,"|")
-        print(f" \____________________________________/\n")
+        if self.is_show_welcome == False:
+            print(f"  ____________________________________")
+            print(f" /                                    \\")
+            print(f" |       Welcome to Chat App!    "," "*3,"|")
+            print(f" |                               "," "*3,"|")
+            print(f" |    Name: {self.user_name}      "," "*(abs(18 - len(self.user_name))),"|")
+            print(f" |    Your ID: {self.user.id}    "," "*15,"|")
+            print(f" |                               "," "*3,"|")
+            print(f" |      Let's start chatting!    "," "*3,"|")
+            print(f" |                               "," "*3,"|")
+            print(f" \____________________________________/\n")
+        else:
+            self.DrawAppUI()
 
         while True:
             msg_content = input(" > Enter your Message: ").rstrip('\n')
@@ -244,15 +260,42 @@ class ChatClient:
             command, args = GetCommand(msg_content, COMMAND)
             if command:
                 self.ExecuteCommand(command, args)
+                return
 
-            # send msg to server
-            message = chat_pb2.Message(sender=self.user, content=msg_content)
-            response = self.chat_stub.SendMessage(message)
+            try:
+                # send msg to server
+                # print("------ user ---")
+                # # print("from_user:", self.user.like.from_user)
+                # print("allow:", self.user.like.is_allow)
+                # print("----------")
+                if self.user.like.is_allow == True:
+                    message = chat_pb2.Message(sender=self.user, content=msg_content)
+                    response = self.chat_stub.SendMessage(message)
+                    self.BlockSendMessage()
+                
+                else:
+                    self.logger.error(f"User is block send message")
+                
+                # print("------ updated user ---")
+                # # print("from_user:", self.user.like.from_user)
+                # print("allow:", self.user.like.is_allow)
+                # print("----------")
+                
+            except grpc.RpcError as error:
+                self.logger.error(f"SendMessage error {error}")
+                
+
+
 
     def ExecuteCommand(self,command, args):
         # like
         if command == ":like":
-            pass
+            try:
+                like_req = chat_pb2.LikeRequest(sender=self.user, receiver_id=args[0])
+                response = self.chat_stub.HandleLikeMsg(like_req)
+                print(response.response)
+            except grpc.RpcError as error:
+                self.logger.error(f":like error - {error.details()}")
         
         # name_len
         elif command == ":name_len":
@@ -260,8 +303,8 @@ class ChatClient:
                 global USER_LENGTH
                 USER_LENGTH = int(args[0])
                 self.DrawAppUI()
-            except Exception as error:
-                print(" [ERROR] :user_len error -", error)
+            except grpc.RpcError as error:
+                self.logger.error(f":user_len err {error.details()}")
                 
         # frame_len
         elif command == ":frame_len":
@@ -269,8 +312,8 @@ class ChatClient:
                 global FRAME_LENGTH
                 FRAME_LENGTH = int(args[0])
                 self.DrawAppUI()
-            except Exception as error:
-                print(" [ERROR] :frame_len error -", error)
+            except grpc.RpcError as error:
+                self.logger.error(f":frame_len er {error.details()}")
                 
         # padding
         elif command == ":padding":
@@ -281,8 +324,8 @@ class ChatClient:
                 global PADDING
                 PADDING = int(args[0])
                 self.DrawAppUI()
-            except Exception as error:
-                print(" [ERROR] :padding error -",error)
+            except grpc.RpcError as error:
+                self.logger.error(f":padding error - {error}")
         
         # history                 
         elif command == ":history":
@@ -290,8 +333,8 @@ class ChatClient:
                 global CHAT_HISTORY
                 CHAT_HISTORY = int(args[0])
                 self.DrawAppUI()
-            except Exception as error:
-                print(" [ERROR] :history error -", error)
+            except grpc.RpcError as error:
+                self.logger.error(f":history error - {error.details()}")
                 
         # help
         elif command == ":help":
@@ -306,9 +349,11 @@ class ChatClient:
                     desc = value.split(" - ")[1]
                     print(f" {cmd.ljust(max_len_list_cmd)}","  ",f"{desc}", sep="")
                 
-                print()
-            except Exception as error:
-                print(" [ERROR] :help error -", error)
+                input("\n Press Any Key to Continue....\n")
+                self.InputAndSendMsg()
+                
+            except grpc.RpcError as error:
+                self.logger.error(f":help error - {error.details()}")
     
     def run(self):
         threading.Thread(target=self.InputAndSendMsg, args=()).start()
