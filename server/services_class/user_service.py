@@ -1,9 +1,4 @@
-import os, sys
 import grpc
-
-# from google.protobuf import timestamp_pb2
-# from google.protobuf import timestamp_pb2
-from datetime import datetime
 
 import services.grpc_generated.user_pb2 as user_pb2
 import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
@@ -62,12 +57,12 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
             # Add the new_user to the list
             self.users.append(new_user)
             
-            self.logger.info(f"User '{new_user.name}' with ID '{new_user.id}' created successfully!")            
+            self.logger.info(f"User[{new_user.id}]{new_user.name} created successfully!")            
             return new_user
         except:
             # Prepare the response
             new_user = user_pb2.CreateUserResponse()
-            self.logger.error(f"User '{new_user.name}' with ID '{new_user.id}' created Fail!")            
+            self.logger.error(f"User[{new_user.id}]{new_user.name} created Fail!")            
 
 
     def UpdateUser(self, request, context):
@@ -76,19 +71,17 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
         for user in self.users:
             if user.id == updated_user.id:
                 user.CopyFrom(updated_user)
-                self.logger.info(f"User '{user.name}' with ID '{user.id}' updated successfully!")
-                # print("user.from_user: ", user.like.from_user)
-                # print("user.like.is_allow: ", user.like.is_allow)
+                self.logger.info(f"User[{user.id}] updated successfully!")
         return updated_user
 
- 
+
     def GetUser(self, request, context):
         id = request.id
         for user in self.users:
             if user.id == id:
                 return user
 		
-        raise grpc.RpcError(f"User with ID '{id}' not found!")
+        raise grpc.RpcError(f"User[{id}] not found!")
 
 
     def GetUsers(self, request, context):

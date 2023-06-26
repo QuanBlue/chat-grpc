@@ -24,12 +24,12 @@ import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 
 PADDING = 2
 CHAT_HISTORY = 9999
-FRAME_LENGTH = 40
+FRAME_LENGTH = 60
 USER_LENGTH = 10
 COMMAND = {
     ':like'     : ":like <user_id> - like for user's message",
     ':name_len' : ":name_len <limit_length> - limit the length of the user name. Default is 10",
-    ":frame_len": ":frame_len <limit_length> - limit the length of the frame. Default is 80",
+    ":frame_len": ":frame_len <limit_length> - limit the length of the frame. Default is 60",
     ":padding"  : ":padding <limit_length> - padding of the content in frame. Default is 2",
     ":history"  : ":history <limit_length> - limit the number of messages in the chat history. Default is 9999",
     ":help"     : ":help - show all commands with description",
@@ -52,6 +52,7 @@ class ChatClient:
         self.user = self.user_stub.CreateUser(self.user)
         
         self.number_msg = 0
+        self.error_msg = ""
         self.is_show_welcome = False
 
     def FormatName(self, name):
@@ -177,7 +178,6 @@ class ChatClient:
         # receive CHAT_HISTORY msg from server and format it
         messages = self.chat_stub.ReceiveMessage(share_type_pb2.Empty())
         messages = list(messages)[-CHAT_HISTORY:]
-        # messages = list(messages)
         messages = self.FormatMessages(messages)
 
         # print msg
@@ -209,6 +209,10 @@ class ChatClient:
                 
         print(f" ║"," "*(FRAME_LENGTH - 2),"║", sep="")
         print(f" ╚","═"*(FRAME_LENGTH - 2),"╝", sep="")
+        
+        if self.error_msg != "":
+            print(f" !!! {self.error_msg}")
+            self.error_msg = ""
         
         print("\n > Enter your Message:")
 
@@ -257,7 +261,7 @@ class ChatClient:
             self.is_show_welcome = True
 
             # run command if msg_content is command            
-            command, args = GetCommand(msg_content, COMMAND)
+            command, args = GetCommand(msg_content)
             if command:
                 self.ExecuteCommand(command, args)
                 return
@@ -267,28 +271,18 @@ class ChatClient:
                 self.user = self.user_stub.GetUser(user_pb2.GetUserRequest(id=self.user.id))
                 
                 # send msg to server
-                # print("------ user ---")
-                # # print("from_user:", self.user.like.from_user)
-                # print("allow:", self.user.like.is_allow)
-                # print("----------")
                 if self.user.like.is_allow == True:
                     message = chat_pb2.Message(sender=self.user, content=msg_content)
                     response = self.chat_stub.SendMessage(message)
                     self.BlockSendMessage()
                 
                 else:
-                    self.logger.error(f"User is block send message")
-                
-                # print("------ updated user ---")
-                # # print("from_user:", self.user.like.from_user)
-                # print("allow:", self.user.like.is_allow)
-                # print("----------")
+                    self.error_msg = "[ERROR] User is block send message"
+                    self.DrawAppUI()
                 
             except grpc.RpcError as error:
                 self.logger.error(f"SendMessage error {error}")
                 
-
-
 
     def ExecuteCommand(self,command, args):
         # like
@@ -296,9 +290,9 @@ class ChatClient:
             try:
                 like_req = chat_pb2.LikeRequest(sender=self.user, receiver_id=args[0])
                 response = self.chat_stub.HandleLikeMsg(like_req)
-                print(response.response)
-            except grpc.RpcError as error:
-                self.logger.error(f":like error - {error.details()}")
+                self.error_msg = response.response
+            except Exception as error:
+                self.error_msg=f":like error - {error}"
         
         # name_len
         elif command == ":name_len":
@@ -306,8 +300,8 @@ class ChatClient:
                 global USER_LENGTH
                 USER_LENGTH = int(args[0])
                 self.DrawAppUI()
-            except grpc.RpcError as error:
-                self.logger.error(f":user_len err {error.details()}")
+            except Exception as error:
+                self.error_msg=f":user_len err {error}"
                 
         # frame_len
         elif command == ":frame_len":
@@ -315,20 +309,20 @@ class ChatClient:
                 global FRAME_LENGTH
                 FRAME_LENGTH = int(args[0])
                 self.DrawAppUI()
-            except grpc.RpcError as error:
-                self.logger.error(f":frame_len er {error.details()}")
+            except Exception as error:
+                self.error_msg=f":frame_len er {error}"
                 
         # padding
         elif command == ":padding":
             try:
                 if int(args[0]) < 0 or int(args[0]) > 10:
-                    raise Exception("invalid argument [padding must be >= 0 and <= 10]")
+                    raise Exception("Invalid argument [padding must be >= 0 and <= 10]")
                 
                 global PADDING
                 PADDING = int(args[0])
                 self.DrawAppUI()
-            except grpc.RpcError as error:
-                self.logger.error(f":padding error - {error}")
+            except Exception as error:
+                self.error_msg=f":padding error - {error}"
         
         # history                 
         elif command == ":history":
@@ -336,12 +330,13 @@ class ChatClient:
                 global CHAT_HISTORY
                 CHAT_HISTORY = int(args[0])
                 self.DrawAppUI()
-            except grpc.RpcError as error:
-                self.logger.error(f":history error - {error.details()}")
+            except Exception as error:
+                self.error_msg=f":history error - {error}"
                 
         # help
         elif command == ":help":
             try:
+                self.DrawAppUI()
                 print() 
                             
                 list_cmd = [value.split(" - ")[0] for key, value in COMMAND.items()]
@@ -353,10 +348,12 @@ class ChatClient:
                     print(f" {cmd.ljust(max_len_list_cmd)}","  ",f"{desc}", sep="")
                 
                 input("\n Press Any Key to Continue....\n")
-                
-                
-            except grpc.RpcError as error:
-                self.logger.error(f":help error - {error.details()}")
+            except Exception as error:
+                self.error_msg=f":help error - {error}"
+        
+        # default
+        else:
+            self.error_msg=f"Invalid command: {command} - type :help for more information"
         
         self.InputAndSendMsg()
     

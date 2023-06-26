@@ -39,11 +39,11 @@ def SliceMessage(msg, content_len):
    """Slice the message to fit the frame
 
    Args:
-       msg (string): message to be sliced
-       content_len (int): length of the message after sliced
+      msg (string): message to be sliced
+      content_len (int): length of the message after sliced
 
    Returns:
-       [string]: sliced message
+      [string]: sliced message
    """
    sliced_msg = []
    
@@ -57,7 +57,7 @@ def SliceMessage(msg, content_len):
       while end_idx < msg_len:
          start_idx = end_idx
          end_idx += content_len
-         
+
          sliced_msg.append(msg[start_idx:end_idx])
          
    return sliced_msg
@@ -66,27 +66,27 @@ def GetMaxLength(list_str):
    """Get the max length of the string in the list
 
    Args:
-       list_str ([string]): list of string
+      list_str ([string]): list of string
 
    Returns:
-       int: max length of the string in the list
+      int: max length of the string in the list
    """
    max_len = max(len(s) for s in list_str)
    return max_len
 
-def GetCommand(str, list_command):
+def GetCommand(str):
    """Get the command from the string
 
    Args:
-       str (string): string to be parsed
+      str (string): string to be parsed
 
    Returns:
-       string: command
+      string: command
    """
    command = str.split(' ')[0]
    args = str.split(' ')[1:]
    
-   if command in list_command:
+   if command[0] == ":":
       return command, args
    else:
       return False, None
