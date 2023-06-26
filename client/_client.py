@@ -53,7 +53,10 @@ class ChatClient:
         
         self.number_msg = 0
         self.error_msg = ""
+        
         self.is_show_welcome = False
+        self.is_show_app_ui_first_time = False
+        
 
     def FormatName(self, name):
         """Format the name to be capitalized (Title Case)
@@ -213,8 +216,12 @@ class ChatClient:
         if self.error_msg != "":
             print(f" !!! {self.error_msg}")
             self.error_msg = ""
+        else:
+            print()
         
-        print("\n > Enter your Message:")
+        if self.is_show_app_ui_first_time == False:
+            self.is_show_app_ui_first_time = True
+            print("\n > Enter your Message:")
 
 
     def ShowMessage(self):
@@ -257,7 +264,8 @@ class ChatClient:
             self.DrawAppUI()
 
         while True:
-            msg_content = input(" > Enter your Message: ").rstrip('\n')
+            msg_content = input("\n > Enter your Message: ").rstrip('\n')
+                
             self.is_show_welcome = True
 
             # run command if msg_content is command            
@@ -337,7 +345,6 @@ class ChatClient:
         elif command == ":help":
             try:
                 self.DrawAppUI()
-                print() 
                             
                 list_cmd = [value.split(" - ")[0] for key, value in COMMAND.items()]
                 max_len_list_cmd = GetMaxLength(list_cmd)
