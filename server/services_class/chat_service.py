@@ -35,10 +35,10 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 		"""
 		try:
 			sender = request.sender
-			print('---------')
-			print("sender.from_user", sender.like.from_user)
-			print("sender.is_allow: ", sender.like.is_allow)
-			print('---------')
+			# print('---------')
+			# print("sender.from_user", sender.like.from_user)
+			# print("sender.is_allow: ", sender.like.is_allow)
+			# print('---------')
 
    
 			if sender.like.is_allow == False:
@@ -75,35 +75,45 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 			yield message
 
 
-	def FindUser(self, id):
-		users = self.user_stub.GetUsers(share_type_pb2.Empty())
+	# def FindUser(self, id):
+	# 	users = self.user_stub.GetUsers(share_type_pb2.Empty())
 		
-		for user in users:
-			if user.id == id:
-				return user
+	# 	for user in users:
+	# 		if user.id == id:
+	# 			return user
 		
-		raise grpc.RpcError(f"User with ID '{id}' not found!")
+	# 	raise grpc.RpcError(f"User with ID '{id}' not found!")
 	
 
 	def HandleLikeMsg(self, request, context):
 		print("Handle like")
 		
 		sender  = request.sender
-		receiver = self.FindUser(request.receiver_id)
+		receiver = self.user_stub.GetUser(user_pb2.GetUserRequest(id=request.receiver_id))
+	
+		print("- receiver_id:", request.receiver_id)
+		print("- receiver.like.is_allow:", receiver.like.is_allow)
+		print("- receiver.like.from_user:", [user.id for user in receiver.like.from_user])
 		
 		# check if receiver_id is valid
 		if len(receiver.id) != 2 or not receiver.id.isdigit():
 			raise grpc.RpcError("Invalid receiver.id, must be \"2 digits\"") 
 		elif sender.id == receiver.id:
 			raise grpc.RpcError("You can not LIKE yourself!")            
-		elif sender.id in receiver.like.from_user:
+		elif sender.id in [user.id for user in receiver.like.from_user]:
 			raise grpc.RpcError(f"You only LIKED: [{receiver.id}]'s message ONCE!")            
-			
 		
-		receiver.like.from_user.append(sender.id)
-					
+		receiver.like.from_user.append(sender)
+		self.user_stub.UpdateUser(receiver)
+		self.logger.info(f'User[{sender.id}] like for user[{receiver.id}]"')
+		print("len(receiver.like.from_user):",len(receiver.like.from_user))	
+
 		if len(receiver.like.from_user) >= 2:
 			receiver.like.is_allow = True
 			self.user_stub.UpdateUser(receiver)
 						
-		self.logger.info(f'User[{receiver.id}] is ALLOWED to send message"')
+			self.logger.info(f'User[{receiver.id}] is ALLOWED to send message"')
+			return chat_pb2.LikeResponse(response="User[{receiver.id}] is ALLOWED to send message")
+
+
+		return chat_pb2.LikeResponse(response="User[{receiver.id}] is NOT ALLOWED to send message")

@@ -6,6 +6,7 @@ import "share_type.proto";
 service UserService {
   rpc CreateUser(User) returns (User) {}
   rpc UpdateUser(User) returns (User) {}
+  rpc GetUser(GetUserRequest) returns (User) {}
   rpc GetUsers(Empty) returns (stream User) {}
 }
 
@@ -20,4 +21,7 @@ message Like {
   repeated User from_user = 1;
   bool is_allow = 2;
 }
-  
+
+message GetUserRequest {
+  string id = 1;
+}

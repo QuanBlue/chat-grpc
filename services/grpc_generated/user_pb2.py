@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 import share_type_pb2 as share__type__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nuser.proto\x1a\x10share_type.proto\"K\n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0c\x63reated_time\x18\x03 \x01(\t\x12\x13\n\x04like\x18\x04 \x01(\x0b\x32\x05.Like\"2\n\x04Like\x12\x18\n\tfrom_user\x18\x01 \x03(\x0b\x32\x05.User\x12\x10\n\x08is_allow\x18\x02 \x01(\x08\x32h\n\x0bUserService\x12\x1c\n\nCreateUser\x12\x05.User\x1a\x05.User\"\x00\x12\x1c\n\nUpdateUser\x12\x05.User\x1a\x05.User\"\x00\x12\x1d\n\x08GetUsers\x12\x06.Empty\x1a\x05.User\"\x00\x30\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nuser.proto\x1a\x10share_type.proto\"K\n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0c\x63reated_time\x18\x03 \x01(\t\x12\x13\n\x04like\x18\x04 \x01(\x0b\x32\x05.Like\"2\n\x04Like\x12\x18\n\tfrom_user\x18\x01 \x03(\x0b\x32\x05.User\x12\x10\n\x08is_allow\x18\x02 \x01(\x08\"\x1c\n\x0eGetUserRequest\x12\n\n\x02id\x18\x01 \x01(\t2\x8d\x01\n\x0bUserService\x12\x1c\n\nCreateUser\x12\x05.User\x1a\x05.User\"\x00\x12\x1c\n\nUpdateUser\x12\x05.User\x1a\x05.User\"\x00\x12#\n\x07GetUser\x12\x0f.GetUserRequest\x1a\x05.User\"\x00\x12\x1d\n\x08GetUsers\x12\x06.Empty\x1a\x05.User\"\x00\x30\x01\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'user_pb2', globals())
@@ -25,6 +25,8 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _USER._serialized_end=107
   _LIKE._serialized_start=109
   _LIKE._serialized_end=159
-  _USERSERVICE._serialized_start=161
-  _USERSERVICE._serialized_end=265
+  _GETUSERREQUEST._serialized_start=161
+  _GETUSERREQUEST._serialized_end=189
+  _USERSERVICE._serialized_start=192
+  _USERSERVICE._serialized_end=333
 # @@protoc_insertion_point(module_scope)

@@ -1,4 +1,5 @@
 import os, sys
+import grpc
 
 # from google.protobuf import timestamp_pb2
 # from google.protobuf import timestamp_pb2
@@ -79,6 +80,15 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
                 # print("user.from_user: ", user.like.from_user)
                 # print("user.like.is_allow: ", user.like.is_allow)
         return updated_user
+
+ 
+    def GetUser(self, request, context):
+        id = request.id
+        for user in self.users:
+            if user.id == id:
+                return user
+		
+        raise grpc.RpcError(f"User with ID '{id}' not found!")
 
 
     def GetUsers(self, request, context):

@@ -24,7 +24,7 @@ import services.grpc_generated.user_pb2_grpc as user_pb2_grpc
 
 PADDING = 2
 CHAT_HISTORY = 9999
-FRAME_LENGTH = 80
+FRAME_LENGTH = 40
 USER_LENGTH = 10
 COMMAND = {
     ':like'     : ":like <user_id> - like for user's message",
@@ -263,6 +263,9 @@ class ChatClient:
                 return
 
             try:
+                # update user
+                self.user = self.user_stub.GetUser(user_pb2.GetUserRequest(id=self.user.id))
+                
                 # send msg to server
                 # print("------ user ---")
                 # # print("from_user:", self.user.like.from_user)
@@ -350,10 +353,12 @@ class ChatClient:
                     print(f" {cmd.ljust(max_len_list_cmd)}","  ",f"{desc}", sep="")
                 
                 input("\n Press Any Key to Continue....\n")
-                self.InputAndSendMsg()
+                
                 
             except grpc.RpcError as error:
                 self.logger.error(f":help error - {error.details()}")
+        
+        self.InputAndSendMsg()
     
     def run(self):
         threading.Thread(target=self.InputAndSendMsg, args=()).start()
