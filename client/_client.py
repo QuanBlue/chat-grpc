@@ -47,6 +47,7 @@ class ChatClient:
         self.user = self.user_stub.CreateUser(self.user)
         
         self.number_msg = 0
+        self.is_show_welcome = False
 
     def FormatName(self, name):
         """Format the name to be capitalized (Title Case)
@@ -92,7 +93,7 @@ class ChatClient:
                 abbreviation.append(word)
             else:
                 abbreviation.append(word[0].upper()+".")
-             
+
         # calculate the length of abbreviation
         abbreviation_length = sum(len(s) for s in abbreviation)
         
@@ -117,7 +118,7 @@ class ChatClient:
                 abbreviation_name = "".join(abbreviation_name)
                 return abbreviation_name
         
-   
+
     def FormatMessages(self, messages):
         """Add padding to the message name to make it the same length
 
@@ -138,8 +139,8 @@ class ChatClient:
 
 
         return formatted_messages
-     
-     
+
+
     def DrawAppUI(self):
         """Draw Chat box frame + Show the message in the chat box
                             ┏━━━━━━━━━━━━━━━━━━━┓"    
@@ -205,15 +206,21 @@ class ChatClient:
         print(f" ╚","═"*(FRAME_LENGTH - 2),"╝", sep="")
         
         print("\n > Enter your Message:")
- 
+
+
     def ShowMessage(self):
         messages = self.chat_stub.ReceiveMessage(chat_pb2.Empty())
         len_msg = len(list(messages))
         
-        if int(self.number_msg) != int(len_msg):
-            self.number_msg = len_msg
+        if self.is_show_welcome == False:
+            return 
+        else:
+            if int(self.number_msg) != int(len_msg):
+                self.number_msg = len_msg
+                
+                # Draw UI                
+                self.DrawAppUI()
             
-            self.DrawAppUI()
             
     def InputAndSendMsg(self):
         ClearScreen()
@@ -231,11 +238,13 @@ class ChatClient:
 
         while True:
             msg_content = input(" > Enter your Message: ").rstrip('\n')
-            
+            self.is_show_welcome = True
+
+            # run command if msg_content is command            
             command, args = GetCommand(msg_content, COMMAND)
             if command:
                 self.ExecuteCommand(command, args)
-                     
+
             # send msg to server
             message = chat_pb2.Message(sender=self.user, content=msg_content)
             response = self.chat_stub.SendMessage(message)
