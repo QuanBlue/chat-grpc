@@ -248,34 +248,11 @@ We provide a CLI interface for the client. The CLI interface allows users to int
 <!-- TODO: Fix -->
 
 ```log
-<!-- logfile.log exapmle  -->
-[15:47:47] Quan join group chat - ID(01)
-[15:47:54] User[01] send message 'hello'
-[15:47:54] User[01] is BLOCKED to send message
-[15:48:08] User[01] is not allow to send message
-[15:48:15] Van join group chat - ID(02)
-[15:48:20] Lien join group chat - ID(03)
-[15:48:23] Hao join group chat - ID(04)
-[15:48:29] Dat join group chat - ID(05)
-[15:48:35] User[05] send message 'hello'
-[15:48:35] User[05] is BLOCKED to send message
-[15:48:42] User[04] send message 'chao moi nguoi'
-[15:48:42] User[04] is BLOCKED to send message
-[15:48:51] User[03] send message 'alo alo'
-[15:48:51] User[03] is BLOCKED to send message
-[15:49:03] User[03] like for User[01]
-[15:49:15] User[03] like for User[01]
-[15:49:28] User[03] like for User[03]
-[15:49:36] User[04] like for User[01]
-[15:49:36] User[01] is ALLOWED to send message
-[15:49:56] User[01] send message 'hi , i am free'
-[15:49:56] User[01] is BLOCKED to send message
-[15:50:00] User[01] is not allow to send message
+<!-- logs/logfile.log exapmle  -->
+
 ```
 
 ## Content
-
-<!-- TODO: fix -->
 
 Server start success:
 
@@ -320,8 +297,6 @@ The client is allowed/blocked to send messages:
 ```
 
 # Roadmap
-
-<!-- TODO: fix run command before msg -->
 
 -  [x] UI
    -  [x] Theme

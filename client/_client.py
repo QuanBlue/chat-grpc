@@ -289,14 +289,13 @@ class ChatClient:
                 self.user = self.user_stub.GetUser(user_pb2.GetUserRequest(id=self.user.id))
                 
                 # send msg to server
-                if self.user.like.is_allow == True:
-                    message = chat_pb2.Message(sender=self.user, content=msg_content)
-                    response = self.chat_stub.SendMessage(message)
-                    self.BlockSendMessage()
+                message = chat_pb2.Message(sender=self.user, content=msg_content)
+                response = self.chat_stub.SendMessage(message)
                 
+                if response.success == True:
+                    self.BlockSendMessage()
                 else:
                     self.error_msg = "[ERROR] User is block send message"
-                    self.DrawAppUI()
                 
             except grpc.RpcError as error:
                 self.error_msg = f"SendMessage error {error}"

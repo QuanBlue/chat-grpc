@@ -37,8 +37,8 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 			sender = request.sender
    
 			if sender.like.is_allow == False:
-				self.logger.error(f'User[{sender.id}] is not allowed to send messages!')
-				raise grpc.RpcError('You are not allowed to send messages!')
+				self.logger.error(f'User[{sender.id}] is BLOCKED to send message')
+				return chat_pb2.SendMessageResponse(success=False)
    
 			# Create a new message
 			sending_msg = chat_pb2.Message()
@@ -81,15 +81,14 @@ class ChatServiceServicer(chat_pb2_grpc.ChatServiceServicer):
 			self.logger.error(f'Getting user! {error}')
 			return chat_pb2.LikeResponse(response=f"{error}")   
 
-		response = f'User[{receiver.id}] is BLOCKED to send message'
-  
+
 		# check if receiver_id is valid
 		if len(receiver.id) != 2 or not receiver.id.isdigit():
 			response = f"Invalid receiver.id, must be \"2 digits\""
 		elif sender.id == receiver.id:
-			response = f"User[{receiver.id}] can not LIKE yourself!"
+			response = f"User[{sender.id}] can not LIKE yourself!"
 		elif sender.id in [user.id for user in receiver.like.from_user]:
-			response = f"User[{receiver.id}] only LIKED: [{receiver.id}]'s message ONCE!"
+			response = f"User[{sender.id}] only LIKED: [{receiver.id}]'s message ONCE!"
 		else:
 			receiver.like.from_user.append(sender)
 			self.user_stub.UpdateUser(receiver)
