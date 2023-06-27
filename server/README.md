@@ -2,16 +2,6 @@
   <b>Server Document</b>
 </h1>
 
-<p align="center">Server-side</p>
-
-<p align="center">
-  <b>
-      <a href="https://github.com/QuanBlue/chat-grpc">Documentation</a> •
-      <a href="https://github.com/QuanBlue/chat-grpc/issues/">Report Bug</a> •
-      <a href="https://github.com/QuanBlue/chat-grpc/issues/">Request Feature</a>
-  </b>
-</p>
-
 <br/>
 
 # Introduction
