@@ -60,7 +60,7 @@
 
       </details>
 
-1. Generate gRPC code:
+2. Generate gRPC code:
 
 -  Open a terminal or command prompt.
 
@@ -80,11 +80,12 @@
 
       <details>
          <summary>Explain command</summary>
-      -  Use the current directory (`services/proto`) as the import search path (`-I` option).
-      -  Generate Python code from the `.proto` file using the `--python_out` option.
-         Generate gRPC Python code using the `--grpc_python_out` option.
-      -  Replace `my_service.proto` with the actual name of your Protobuf file.
-    </details>
+
+   -  Use the current directory (`services/proto`) as the import search path (`-I` option).
+   -  Generate Python code from the `.proto` file using the `--python_out` option.
+      Generate gRPC Python code using the `--grpc_python_out` option.
+   -  Replace `my_service.proto` with the actual name of your Protobuf file.
+   </details>
 
 -  After running the command, you should see two new Python files generated in `services/grpc_generated` directory, allows for a clear distinction between the message definitions and the service definitions in your gRPC application. It helps maintain a clean and organized codebase and makes it easier to work with both the message data and the gRPC service functionality separately. The separation of concerns between these two files:
 
@@ -107,6 +108,8 @@ The `Chat` + `User service` enables clients to engage in real-time chat conversa
 **The Chat service:** clients can establish a bidirectional stream to send and receive chat messages, facilitating interactive and real-time communication. This service is ideal for building chat applications, collaboration tools, or any system requiring instant messaging capabilities.
 
 **The User service:** provides endpoints to create new users, retrieve user information, and perform user management operations. It allows clients to manage user profiles, authentication, and access control within their applications.
+
+**The share_type service:** provides the message type which is used in `the chat service` and `the user service`.
 
 # Prerequisites
 

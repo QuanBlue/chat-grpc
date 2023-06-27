@@ -16,7 +16,6 @@ from services.grpc_generated import chat_pb2_grpc
 from server.services_class.user_service import UserServiceServicer 
 from server.services_class.chat_service import ChatServiceServicer 
 
-
 from utils.logger import *
 
 """
