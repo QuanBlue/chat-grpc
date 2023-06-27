@@ -42,26 +42,28 @@
 <details open>
 <summary><b>📖 Table of Contents</b></summary>
 
--  [Introduction](#dizzy-introduction)
+-  [:dizzy: Introduction](#dizzy-introduction)
    -  [What is gRPC?](#what-is-grpc)
    -  [Why gRPC?](#why-grpc)
--  [Demo](#film_projector-demo)
--  [Documentation](#newspaper-documentation)
--  [Key Features](#star-key-features)
--  [Getting Started](#toolbox-getting-started)
-   -  [Prerequisites](#pushpin-prerequisites)
-   -  [How to use gRPC](#mechanical_arm-how-to-use-grpc)
-   -  [Folder structure](#file_folder-folder-structure)
-   -  [Run Locally](#hammer_and_wrench-run-locally)
--  [Command](#speech_balloon-command)
--  [Like message rule](#alien_monster-like-message-rule)
--  [Log](#page_facing_up-log)
+-  [:start2: About the Project](#start2-about-the-project)
+   -  [:camera: Screenshots](#camera-screenshots)
+   -  [:film_projector: Demo](#film_projector-demo)
+   -  [:newspaper: Documentation](#newspaper-documentation)
+   -  [:star: Features](#star-features)
+-  [:toolbox: Getting Started](#toolbox-getting-started)
+   -  [:pushpin: Prerequisites](#pushpin-prerequisites)
+   -  [:mechanical_arm: How to use gRPC](#mechanical_arm-how-to-use-grpc)
+   -  [:file_folder: Folder structure](#file_folder-folder-structure)
+   -  [:hammer_and_wrench: Run Locally](#hammer_and_wrench-run-locally)
+-  [:speech_balloon: Command](#speech_balloon-command)
+-  [:alien_monster: Like message rule](#alien_monster-like-message-rule)
+-  [:page_facing_up: Log](#page_facing_up-log)
    -  [Log file](#log-file)
    -  [Content](#content)
--  [Roadmap](#world_map-roadmap)
--  [Contributors](#busts_in_silhouette-contributors)
--  [Credits](#sparkles-credits)
--  [License](#scroll-license)
+-  [:world_map: Roadmap](#world_map-roadmap)
+-  [:busts_in_silhouette: Contributors](#busts_in_silhouette-contributors)
+-  [:sparkles: Credits](#sparkles-credits)
+-  [:scroll: License](#scroll-license)
 </details>
 
 # :dizzy: Introduction
@@ -85,11 +87,15 @@ gRPC is widely used in various domains, including microservices architectures, c
 -  Performance and Scalability
 -  Extensibility and Interoperability
 
-# :film_projector: Demo
+# :start2: About the Project
+
+## :camera: Screenshots
+
+## :film_projector: Demo
 
 Check out the [**demo video**](https://www.youtube.com/watch?v=j3ZhaS5n7hU&ab_channel=ThanhQu%C3%A2nCoder) to see the app in action.
 
-# :newspaper: Documentation
+## :newspaper: Documentation
 
 Check out the [**Documentation**](https://docs.google.com/document/d/1ehqlwr8YSOfgmqYLNv7WkniywJDngN6vRjhilsBCNRY/edit?usp=sharing) to see full report document.
 
@@ -97,9 +103,9 @@ Detail Documentation:
 
 -  [Client documentation](https://github.com/QuanBlue/chat-grpc/tree/main/client).
 -  [Server documentation](https://github.com/QuanBlue/chat-grpc/tree/main/server).
--  [Service documentation](https://github.com/QuanBlue/chat-grpc/tree/main/service).
+-  [Service documentation](https://github.com/QuanBlue/chat-grpc/tree/main/services).
 
-# :star: Key Features
+## :star: Features
 
 -  CLI interface
 -  Interact, customize command
@@ -206,7 +212,7 @@ We provide a CLI interface for the client. The CLI interface allows users to int
 ```
 --like [user id]             like for user's message,
 --name-len [limit length]    limit the length of the user name. Default is 10,
---frame-len [limit length]   limit the length of the frame. Default is 60,
+--frame-width [limit length]   limit the length of the frame. Default is 60,
 --padding [limit length]     padding of the content in frame. Default is 2,
 --history [limit length]     limit the number of messages in the chat history. Default is 9999,
 --help                       show all commands with description,

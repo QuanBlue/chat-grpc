@@ -28,7 +28,7 @@ USER_LENGTH = 10
 COMMAND = {
     '--like'     : "--like <user_id> - like for user's message",
     '--name-len' : "--name-len <limit_length> - limit the length of the user name. Default is 10",
-    "--frame-len": "--frame-len <limit_length> - limit the length of the frame. Default is 60",
+    "--frame-width": "--frame-width <limit_length> - limit the length of the frame. Default is 60",
     "--padding"  : "--padding <limit_length> - padding of the content in frame. Default is 2",
     "--history"  : "--history <limit_length> - limit the number of messages in the chat history. Default is 9999",
     "--help"     : "--help - show all commands with description",
@@ -225,8 +225,6 @@ class ChatClient:
         else:
             print()
         
-        # if self.is_show_app_ui_first_time == False:
-        #     self.is_show_app_ui_first_time = True
         print("\n > Enter your Message:")
 
 
@@ -296,6 +294,7 @@ class ChatClient:
                     self.BlockSendMessage()
                 else:
                     self.error_msg = "[ERROR] User is block send message"
+                    self.DrawAppUI()
                 
             except grpc.RpcError as error:
                 self.error_msg = f"SendMessage error {error}"
@@ -322,13 +321,13 @@ class ChatClient:
                     self.error_msg=f":user_len err {error}"
                     
             # frame_len
-            elif command == "--frame-len":
+            elif command == "--frame-width":
                 try:
                     global FRAME_LENGTH
                     FRAME_LENGTH = int(args[0])
                     self.DrawAppUI()
                 except Exception as error:
-                    self.error_msg=f"--frame-len error {error}"
+                    self.error_msg=f"--frame-width error {error}"
                     
             # padding
             elif command == "--padding":
