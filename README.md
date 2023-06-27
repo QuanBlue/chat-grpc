@@ -58,7 +58,7 @@
    -  [Folder structure](#file_folder-folder-structure)
    -  [Run Locally](#hammer_and_wrench-run-locally)
 -  [Command](#speech_balloon-command)
--  [Like message rule](#alien_monster-like-message-rule)
+-  [Like message rule](#robot-like-message-rule)
 -  [Log](#page_facing_up-log)
    -  [Log file](#log-file)
    -  [Content](#content)
@@ -246,7 +246,7 @@ We provide a CLI interface for the client. The CLI interface allows users to int
 --help                       show all commands with description,
 ```
 
-# :alien_monster: Like message rule
+# :robot: Like message rule
 
 > **LIKE reply:** for allow user XX to continue chat (at least 2 LIKE)
 
