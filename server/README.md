@@ -4,11 +4,11 @@
 
 <br/>
 
-# Introduction
+## Introduction
 
 **The gRPC service** combines two main functionalities: Chat and User. This service provides communication capabilities through the Chat service and user management functionalities through the User service. It leverages the power of gRPC, a high-performance and language-agnostic remote procedure call (RPC) framework, to facilitate efficient communication between clients and the server.
 
-# Implement the server-side code
+## Implement the server-side code
 
 **1. Write gRPC service** by subclassing the generated service interface. Override the methods defined in the interface and provide the desired functionality for each method.
 
