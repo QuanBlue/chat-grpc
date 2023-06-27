@@ -2,27 +2,17 @@
   <b>gRPC Service Document</b>
 </h1>
 
-<p align="center">[Provide a brief introduction to the gRPC service. Explain its purpose, functionality, and any relevant background information.]</p>
-
-<p align="center">
-  <b>
-      <a href="https://github.com/QuanBlue/chat-grpc">Documentation</a> •
-      <a href="https://github.com/QuanBlue/chat-grpc/issues/">Report Bug</a> •
-      <a href="https://github.com/QuanBlue/chat-grpc/issues/">Request Feature</a>
-  </b>
-</p>
-
 <br/>
 
-# Introduction
+## Introduction
 
 **The gRPC service** combines two main functionalities: Chat and User. This service provides communication capabilities through the Chat service and user management functionalities through the User service. It leverages the power of gRPC, a high-performance and language-agnostic remote procedure call (RPC) framework, to facilitate efficient communication between clients and the server.
 
-# GRPC Overview
+## GRPC Overview
 
 **gRPC** is an open-source, high-performance remote procedure call (RPC) framework developed by Google. It enables efficient and scalable communication between distributed systems and is designed to be language-agnostic, allowing developers to build robust and interoperable applications across different programming languages.
 
-## General gRPC code
+### General gRPC code
 
 **1**. **Define your gRPC service** using protocol buffers. This will define the messages and methods used for communication.
 
@@ -101,7 +91,7 @@
       -  Implements the server-side logic for handling the gRPC requests from the client.
       -  You can use the service stubs and methods defined in this file to interact with the gRPC service, make remote procedure calls (RPCs), and handle the communication between the client and server.
 
-# Service Overview
+## Service Overview
 
 The `Chat` + `User service` enables clients to engage in real-time chat conversations and perform user-related operations. The Chat service allows clients to send and receive messages, while the User service enables user creation, retrieval, and management.
 
@@ -111,7 +101,7 @@ The `Chat` + `User service` enables clients to engage in real-time chat conversa
 
 **The share_type service:** provides the message type which is used in `the chat service` and `the user service`.
 
-# Prerequisites
+## Prerequisites
 
 -  **Python:** >= 3.10.7
 -  **gRPC tools:** gRPC compiler, Install [here](https://grpc.io/docs/languages/python/quickstart/).
