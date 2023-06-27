@@ -11,7 +11,6 @@ sys.path.append(utils_dir)
 
 # from helper import *
 from utils.helper import *
-from utils.logger import *
 
 import services.grpc_generated.share_type_pb2 as share_type_pb2
 
@@ -37,8 +36,6 @@ COMMAND = {
 
 class ChatClient:
     def __init__(self):
-        self.logger = Logger()
-        
         # Create a gRPC channel
         self.channel = grpc.insecure_channel('localhost:50051')
 
@@ -302,7 +299,7 @@ class ChatClient:
                     self.DrawAppUI()
                 
             except grpc.RpcError as error:
-                self.logger.error(f"SendMessage error {error}")
+                self.error_msg = f"SendMessage error {error}"
                 
 
     def ExecuteCommand(self,command, args):

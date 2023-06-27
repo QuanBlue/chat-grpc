@@ -1,6 +1,5 @@
 import logging
 import os
-import colorlog
 
 
 LOG_DIR = 'logs'  # Specify the directory for log files
@@ -22,15 +21,22 @@ class Logger:
       # Create a file logger directory if it does not exist
       self.CreateLoggerDirectory()
 
-      # Create a file handler and set its level
-      file_handler = logging.FileHandler(LOG_PATH)
-      file_handler.setLevel(logging.DEBUG)
-      file_handler.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s', '%Y-%m-%d %H:%M:%S'))
-
-      # Get the logger and add the file handler
-      self.logger = logging.getLogger('')
-      self.logger.addHandler(file_handler)
+      # Create the logger with the specified name if it doesn't exist
+      self.logger = logging.getLogger('logger')
       
+      # Check if the logger already has the file handler
+      has_file_handler = any(isinstance(handler, logging.FileHandler) for handler in self.logger.handlers)
+
+      if not has_file_handler:
+         # Create a file handler and set its level
+         file_handler = logging.FileHandler(LOG_PATH)
+         file_handler.setLevel(logging.DEBUG)
+         file_handler.setFormatter(logging.Formatter('%(asctime)s [%(levelname)s] %(message)s', '%Y-%m-%d %H:%M:%S'))
+
+         # Get the logger and add the file handler
+         self.logger.addHandler(file_handler)
+      
+
 
    def CreateLoggerDirectory(self):
       """Create the directory for the log file if it does not exist.

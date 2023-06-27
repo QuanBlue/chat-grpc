@@ -57,7 +57,7 @@ class UserServiceServicer(user_pb2_grpc.UserServiceServicer):
             # Add the new_user to the list
             self.users.append(new_user)
             
-            self.logger.info(f"User[{new_user.id}]{new_user.name} created successfully!")            
+            self.logger.info(f"User[{new_user.id}]{new_user.name} created Successfully!")            
             return new_user
         except:
             # Prepare the response

@@ -277,46 +277,51 @@ We provide a CLI interface for the client. The CLI interface allows users to int
 
 <!-- TODO: fix -->
 
+Server start success:
+
+```log
+[INFO] Server started on port 50051...
+```
+
 Client connect and enter username:
 
-```
-<username> join group chat - ID(<user_id>)
+```log
+[INFO] User[<user_id>]<username> created Successfully!
+[ERROR] User[<user_id>]<username> created Fail!
 ```
 
 Client send msg success:
 
+```log
+[INFO] User[<user_id] send message: <message>
 ```
-User[<user_id>] send message ‘<message>
+
+Update Client stat (like, block, allow):
+
+```log
+[INFO] User[<user_id>] updated successfully!
+[ERROR] Getting user! User[<user_id>] not found!
 ```
 
 Client A like client B's msg:
 
-```
-User[<userA_id>] like for User[<userB_id>]
-```
-
-Client being block send msg but still try sending msg:
-
-```
-User[<user_id>] is not allow to send message
-```
-
-Client has been blocked from sending messages:
+```log
+[INFO] User[<userA_id>] like for User[<userB_id>]
+[ERROR] User[<userA_id>] only LIKED: [<userB_id>]'s message ONCE!
+[ERROR] User[<userA_id>] can not LIKE yourself!
 
 ```
-User[<user_id>] is BLOCKED to send message
-```
 
-The client is allowed to send messages:
+The client is allowed/blocked to send messages:
 
-```
-User[<user_id>] is ALLOWED to send message
+```log
+[INFO] User[<user_id>] is ALLOWED to send message
+[ERROR] User[<user_id>] is BLOCKED to send message
 ```
 
 # Roadmap
 
 <!-- TODO: fix run command before msg -->
-<!-- TODO: Draw Diagram -->
 
 -  [x] UI
    -  [x] Theme
