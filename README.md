@@ -47,7 +47,7 @@
 -  [Introduction](#dizzy-introduction)
    -  [What is gRPC?](#what-is-grpc)
    -  [Why gRPC?](#why-grpc)
--  [About the Project](#start2-about-the-project)
+-  [About the Project](#star2-about-the-project)
    -  [Screenshots](#camera-screenshots)
    -  [Demo](#film_projector-demo)
    -  [Documentation](#newspaper-documentation)
@@ -89,7 +89,7 @@ gRPC is widely used in various domains, including microservices architectures, c
 -  Performance and Scalability
 -  Extensibility and Interoperability
 
-# :start2: About the Project
+# :star2: About the Project
 
 ## :camera: Screenshots
 
