@@ -39,31 +39,33 @@
 
 <br/>
 
+![screenshot](./assets/Demo/app-demo.png)
+
 <details open>
 <summary><b>📖 Table of Contents</b></summary>
 
--  [:dizzy: Introduction](#dizzy-introduction)
+-  [Introduction](#dizzy-introduction)
    -  [What is gRPC?](#what-is-grpc)
    -  [Why gRPC?](#why-grpc)
--  [:start2: About the Project](#start2-about-the-project)
-   -  [:camera: Screenshots](#camera-screenshots)
-   -  [:film_projector: Demo](#film_projector-demo)
-   -  [:newspaper: Documentation](#newspaper-documentation)
-   -  [:star: Features](#star-features)
--  [:toolbox: Getting Started](#toolbox-getting-started)
-   -  [:pushpin: Prerequisites](#pushpin-prerequisites)
-   -  [:mechanical_arm: How to use gRPC](#mechanical_arm-how-to-use-grpc)
-   -  [:file_folder: Folder structure](#file_folder-folder-structure)
-   -  [:hammer_and_wrench: Run Locally](#hammer_and_wrench-run-locally)
--  [:speech_balloon: Command](#speech_balloon-command)
--  [:alien_monster: Like message rule](#alien_monster-like-message-rule)
--  [:page_facing_up: Log](#page_facing_up-log)
+-  [About the Project](#start2-about-the-project)
+   -  [Screenshots](#camera-screenshots)
+   -  [Demo](#film_projector-demo)
+   -  [Documentation](#newspaper-documentation)
+   -  [Features](#star-features)
+-  [Getting Started](#toolbox-getting-started)
+   -  [Prerequisites](#pushpin-prerequisites)
+   -  [How to use gRPC](#mechanical_arm-how-to-use-grpc)
+   -  [Folder structure](#file_folder-folder-structure)
+   -  [Run Locally](#hammer_and_wrench-run-locally)
+-  [Command](#speech_balloon-command)
+-  [Like message rule](#alien_monster-like-message-rule)
+-  [Log](#page_facing_up-log)
    -  [Log file](#log-file)
    -  [Content](#content)
--  [:world_map: Roadmap](#world_map-roadmap)
--  [:busts_in_silhouette: Contributors](#busts_in_silhouette-contributors)
--  [:sparkles: Credits](#sparkles-credits)
--  [:scroll: License](#scroll-license)
+-  [Roadmap](#world_map-roadmap)
+-  [Contributors](#busts_in_silhouette-contributors)
+-  [Credits](#sparkles-credits)
+-  [License](#scroll-license)
 </details>
 
 # :dizzy: Introduction
@@ -90,6 +92,32 @@ gRPC is widely used in various domains, including microservices architectures, c
 # :start2: About the Project
 
 ## :camera: Screenshots
+
+<div align="center">
+  <div>
+    <img src="./assets/Demo/welcome.png" alt="Welcome">
+      <i>Figure 1: Welcome UI</i>
+    </img>
+  </div>
+  <br>
+  <div>
+    <img src="./assets/Demo/chatbox.png" alt="Chatbox">
+      <i>Figure 2: Chatbox UI</i>
+    </img>
+  </div>
+  <br>
+  <div>
+    <img src="./assets/Demo/show-command.png" alt="Command">
+      <i>Figure 3: App command</i>
+    </img>
+  </div>
+  <br>
+  <div>
+    <img src="./assets/Demo/server-log.png" alt="Sever log">
+      <i>Figure 4: Server log</i>
+    </img>
+  </div>
+</div>
 
 ## :film_projector: Demo
 
@@ -310,8 +338,7 @@ The client is allowed/blocked to send messages:
 -  [x] Communication
 -  [x] Logs
 -  [x] Multi-threading (client)
--  [x] Chatting rule
-   -  [x] At least 2 LIKE (from 2 others) to continue chat
+-  [x] Chatting rule - At least 2 LIKE (from 2 others) to continue chat
 -  [ ] Demo
 -  [x] Documentation
 
