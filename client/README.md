@@ -1,14 +1,13 @@
 <h1 align="center">
   <b>Client Document</b>
 </h1>
+<br>
 
-<br/>
-
-# Introduction
+## Introduction
 
 **The gRPC service** combines two main functionalities: Chat and User. This service provides communication capabilities through the Chat service and user management functionalities through the User service. It leverages the power of gRPC, a high-performance and language-agnostic remote procedure call (RPC) framework, to facilitate efficient communication between clients and the server.
 
-# Implement the client-side code
+## Implement the client-side code
 
 To implement client-side code for a gRPC client, you can follow these steps:
 
@@ -55,4 +54,4 @@ if __name__ == '__main__':
    client.run()
 ```
 
-> **Note:** Remember to handle any potential exceptions that may occur during the gRPC communication, such as **grpc.RpcError** or **grpc.StatusCode exceptions.**
+> **Note:** Remember to handle any potential exceptions that may occur during the gRPC communication, such as `grpc.RpcError` or `grpc.StatusCode exceptions`.
