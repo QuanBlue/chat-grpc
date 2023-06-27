@@ -53,7 +53,8 @@
    -  [:mechanical_arm: How to use gRPC](#mechanical_arm-how-to-use-grpc)
    -  [:file_folder: Folder structure](#file_folder-folder-structure)
    -  [:hammer_and_wrench: Run Locally](#hammer_and_wrench-run-locally)
--  [:speech_balloon: Chat Convention](#speech_balloon-chat-convention)
+-  [:speech_balloon: Command](#speech_balloon-command)
+   -  [](#)
    -  [LIKE reply](#like-reply)
    -  [Exception](#exception)
 -  [:page_facing_up: Log](#page_facing_up-log)
@@ -195,7 +196,20 @@ python3 client.py
 
 > **Note:** Run multiple client by using multiple terminal
 
-# :speech_balloon: Chat Convention
+# :speech_balloon: Command
+
+We provide a CLI interface for the client. The CLI interface allows users to interact with the chat application with simple commands:
+
+```
+-l --like [user id]             like for user's message,
+-n --name-len [limit length]    limit the length of the user name. Default is 10,
+-f --frame-len [limit length]   limit the length of the frame. Default is 60,
+-p --padding [limit length]     padding of the content in frame. Default is 2,
+-H --history [limit length]     limit the number of messages in the chat history. Default is 9999,
+-h --help                       show all commands with description,
+```
+
+##
 
 ## LIKE reply
 
@@ -216,6 +230,8 @@ python3 client.py
 
 **Program exception:**
 
+<!-- TODO: Fix -->
+
 ```log
 [WARNING] You can not LIKE yourself_<from_user>!
 [WARNING] You only LIKED: [<user_id>]'s message ONCE!_<from_user>
@@ -228,6 +244,8 @@ python3 client.py
 ## Log file
 
 **Syntax:** `[<time>] <content>`
+
+<!-- TODO: Fix -->
 
 ```log
 <!-- logfile.log exapmle  -->
@@ -256,6 +274,8 @@ python3 client.py
 ```
 
 ## Content
+
+<!-- TODO: fix -->
 
 Client connect and enter username:
 
@@ -295,6 +315,9 @@ User[<user_id>] is ALLOWED to send message
 
 # Roadmap
 
+<!-- TODO: fix run command before msg -->
+<!-- TODO: Draw Diagram -->
+
 -  [x] UI
    -  [x] Theme
    -  [x] Feature customize UI (padding, table width,...) - When user start chat
@@ -305,10 +328,9 @@ User[<user_id>] is ALLOWED to send message
       -  [x] Chat history (CHAT_HISTORY)
 -  [x] Communication
 -  [x] Logs
--  [ ] Install dependency (requirements.txt)
 -  [x] Multi-threading (client)
--  [ ] Chatting rule
-   -  [ ] At least 2 LIKE (from 2 others) to continue chat
+-  [x] Chatting rule
+   -  [x] At least 2 LIKE (from 2 others) to continue chat
 -  [ ] Demo
 -  [ ] Documentation
 

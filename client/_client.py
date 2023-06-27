@@ -27,12 +27,12 @@ CHAT_HISTORY = 9999
 FRAME_LENGTH = 60
 USER_LENGTH = 10
 COMMAND = {
-    ':like'     : ":like <user_id> - like for user's message",
-    ':name_len' : ":name_len <limit_length> - limit the length of the user name. Default is 10",
-    ":frame_len": ":frame_len <limit_length> - limit the length of the frame. Default is 60",
-    ":padding"  : ":padding <limit_length> - padding of the content in frame. Default is 2",
-    ":history"  : ":history <limit_length> - limit the number of messages in the chat history. Default is 9999",
-    ":help"     : ":help - show all commands with description",
+    '--like'     : "--like <user_id> - like for user's message",
+    '--name-len' : "--name-len <limit_length> - limit the length of the user name. Default is 10",
+    "--frame-len": "--frame-len <limit_length> - limit the length of the frame. Default is 60",
+    "--padding"  : "--padding <limit_length> - padding of the content in frame. Default is 2",
+    "--history"  : "--history <limit_length> - limit the number of messages in the chat history. Default is 9999",
+    "--help"     : "--help - show all commands with description",
 }
 
 class ChatClient:
@@ -184,44 +184,54 @@ class ChatClient:
         messages = self.FormatMessages(messages)
 
         # print msg
-        for message in messages:
-            # if not self.IsLikeMessage(message.msg):
-            msg_info = f"[{message.time}][{message.sender.id}] {message.sender.name}"
-            msg = f"{msg_info}: {message.content}"
+        try:
+            for message in messages:
+                # if not self.IsLikeMessage(message.msg):
+                msg_info = f"[{message.time}][{message.sender.id}] {message.sender.name}"
+                msg = f"{msg_info}: {message.content}"
+                    
+                content_len = FRAME_LENGTH -  PADDING*2 - len(msg_info) - 4
                 
-            content_len = FRAME_LENGTH -  PADDING*2 - len(msg_info) - 4
-            
-            msg = SliceMessage(message.content, content_len)
-            
-            if len(msg) == 1:
-                left_padding = PADDING
-                right_padding = content_len - len(msg[0]) + PADDING
-                print(f" ║"," "*left_padding,f"{msg_info}: {msg[0]}"," "*right_padding,"║",sep="")
-            else:
-                # print first line
-                print(f" ║"," "*PADDING,f"{msg_info}: {msg[0]}"," "*PADDING,"║",sep="")
+                msg = SliceMessage(message.content, content_len)
                 
-                # print middle lines
-                for i in range(1, len(msg) - 1):
-                    print(f" ║"," "*(PADDING + len(msg_info) + 2),f"{msg[i]}"," "*PADDING,"║",sep="")
-                
-                # print last line
-                left_padding = PADDING + len(msg_info) + 2
-                right_padding = FRAME_LENGTH - left_padding - len(msg[-1]) - 2
-                print(f" ║"," "*left_padding,f"{msg[-1]}"," "*right_padding,"║",sep="")
-                
+                if len(msg) == 1:
+                    left_padding = PADDING
+                    right_padding = content_len - len(msg[0]) + PADDING
+                    print(f" ║"," "*left_padding,f"{msg_info}: {msg[0]}"," "*right_padding,"║",sep="")
+                else:
+                    # print first line
+                    print(f" ║"," "*PADDING,f"{msg_info}: {msg[0]}"," "*PADDING,"║",sep="")
+                    
+                    # print middle lines
+                    for i in range(1, len(msg) - 1):
+                        print(f" ║"," "*(PADDING + len(msg_info) + 2),f"{msg[i]}"," "*PADDING,"║",sep="")
+                    
+                    # print last line
+                    left_padding = PADDING + len(msg_info) + 2
+                    right_padding = FRAME_LENGTH - left_padding - len(msg[-1]) - 2
+                    print(f" ║"," "*left_padding,f"{msg[-1]}"," "*right_padding,"║",sep="")
+        except Exception as error:
+            pass
+                    
         print(f" ║"," "*(FRAME_LENGTH - 2),"║", sep="")
         print(f" ╚","═"*(FRAME_LENGTH - 2),"╝", sep="")
         
         if self.error_msg != "":
-            print(f" !!! {self.error_msg}")
+            error_alert = f" !!! {self.error_msg}"
+            error_alerts = SliceMessage(error_alert, FRAME_LENGTH - 8)
+            
+            for alert in error_alerts:
+                padding, remainder = PaddingSpace(FRAME_LENGTH, len(alert))
+                print(" "*padding,alert)
+                
             self.error_msg = ""
         else:
             print()
         
-        if self.is_show_app_ui_first_time == False:
-            self.is_show_app_ui_first_time = True
-            print("\n > Enter your Message:")
+        # if self.is_show_app_ui_first_time == False:
+        #     self.is_show_app_ui_first_time = True
+        print("\n > Enter your Message:")
+
 
 
     def ShowMessage(self):
@@ -264,15 +274,18 @@ class ChatClient:
             self.DrawAppUI()
 
         while True:
-            msg_content = input("\n > Enter your Message: ").rstrip('\n')
-                
-            self.is_show_welcome = True
-
+            if self.is_show_welcome == False:
+                msg_content = input("\n > Enter your Message: ").rstrip('\n')
+            else:
+                msg_content = input().rstrip('\n')
+            
             # run command if msg_content is command            
             command, args = GetCommand(msg_content)
             if command:
                 self.ExecuteCommand(command, args)
                 return
+
+            self.is_show_welcome = True
 
             try:
                 # update user
@@ -293,76 +306,82 @@ class ChatClient:
                 
 
     def ExecuteCommand(self,command, args):
-        # like
-        if command == ":like":
-            try:
-                like_req = chat_pb2.LikeRequest(sender=self.user, receiver_id=args[0])
-                response = self.chat_stub.HandleLikeMsg(like_req)
-                self.error_msg = response.response
-            except Exception as error:
-                self.error_msg=f":like error - {error}"
-        
-        # name_len
-        elif command == ":name_len":
-            try:
-                global USER_LENGTH
-                USER_LENGTH = int(args[0])
-                self.DrawAppUI()
-            except Exception as error:
-                self.error_msg=f":user_len err {error}"
-                
-        # frame_len
-        elif command == ":frame_len":
-            try:
-                global FRAME_LENGTH
-                FRAME_LENGTH = int(args[0])
-                self.DrawAppUI()
-            except Exception as error:
-                self.error_msg=f":frame_len er {error}"
-                
-        # padding
-        elif command == ":padding":
-            try:
-                if int(args[0]) < 0 or int(args[0]) > 10:
-                    raise Exception("Invalid argument [padding must be >= 0 and <= 10]")
-                
-                global PADDING
-                PADDING = int(args[0])
-                self.DrawAppUI()
-            except Exception as error:
-                self.error_msg=f":padding error - {error}"
-        
-        # history                 
-        elif command == ":history":
-            try:
-                global CHAT_HISTORY
-                CHAT_HISTORY = int(args[0])
-                self.DrawAppUI()
-            except Exception as error:
-                self.error_msg=f":history error - {error}"
-                
-        # help
-        elif command == ":help":
-            try:
-                self.DrawAppUI()
-                            
-                list_cmd = [value.split(" - ")[0] for key, value in COMMAND.items()]
-                max_len_list_cmd = GetMaxLength(list_cmd)
-                            
-                for key, value in COMMAND.items():
-                    cmd = value.split(" - ")[0]
-                    desc = value.split(" - ")[1]
-                    print(f" {cmd.ljust(max_len_list_cmd)}","  ",f"{desc}", sep="")
-                
-                input("\n Press Any Key to Continue....\n")
-            except Exception as error:
-                self.error_msg=f":help error - {error}"
-        
-        # default
-        else:
-            self.error_msg=f"Invalid command: {command} - type :help for more information"
-        
-        self.InputAndSendMsg()
+        try:
+            # like
+            if command == "--like":
+                try:
+                    like_req = chat_pb2.LikeRequest(sender=self.user, receiver_id=args[0])
+                    response = self.chat_stub.HandleLikeMsg(like_req)
+                    self.error_msg = response.response
+                except Exception as error:
+                    self.error_msg=f"--like error - {error}"
+            
+            # name_len
+            elif command == "--name-len":
+                try:
+                    global USER_LENGTH
+                    USER_LENGTH = int(args[0])
+                    self.DrawAppUI()
+                except Exception as error:
+                    self.error_msg=f":user_len err {error}"
+                    
+            # frame_len
+            elif command == "--frame-len":
+                try:
+                    global FRAME_LENGTH
+                    FRAME_LENGTH = int(args[0])
+                    self.DrawAppUI()
+                except Exception as error:
+                    self.error_msg=f"--frame-len error {error}"
+                    
+            # padding
+            elif command == "--padding":
+                try:
+                    if int(args[0]) < 0 or int(args[0]) > 10:
+                        raise Exception("Invalid argument [padding must be >= 0 and <= 10]")
+                    
+                    global PADDING
+                    PADDING = int(args[0])
+                    self.DrawAppUI()
+                except Exception as error:
+                    self.error_msg=f"--padding error - {error}"
+            
+            # history                 
+            elif command == "--history":
+                try:
+                    global CHAT_HISTORY
+                    CHAT_HISTORY = int(args[0])
+                    self.DrawAppUI()
+                except Exception as error:
+                    self.error_msg=f"--history error - {error}"
+                    
+            # help
+            elif command == "--help":
+                try:
+                    if self.is_show_welcome == True:
+                        self.DrawAppUI()
+                    
+                    print()
+                    
+                    list_cmd = [value.split(" - ")[0] for key, value in COMMAND.items()]
+                    max_len_list_cmd = GetMaxLength(list_cmd)
+                                
+                    for key, value in COMMAND.items():
+                        cmd = value.split(" - ")[0]
+                        desc = value.split(" - ")[1]
+                        print(f" {cmd.ljust(max_len_list_cmd)}","  ",f"{desc}", sep="")
+                    
+                    input("\n Press Any Key to Continue....\n")
+                except Exception as error:
+                    self.error_msg=f"--help error - {error}"
+            
+            # default
+            else:
+                self.error_msg=f"Invalid command: {command} - type --help for more information"
+            
+            self.InputAndSendMsg()
+        except Exception as error:
+            self.error_msg(f"ExecuteCommand error {error}")
     
     def run(self):
         threading.Thread(target=self.InputAndSendMsg, args=()).start()

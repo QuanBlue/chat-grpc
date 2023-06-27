@@ -71,8 +71,13 @@ def GetMaxLength(list_str):
    Returns:
       int: max length of the string in the list
    """
-   max_len = max(len(s) for s in list_str)
+   try:
+      max_len = max(len(s) for s in list_str)
+   except Exception as error:
+      raise Exception(f"GetMaxLength: {error}")
+   
    return max_len
+      
 
 def GetCommand(str):
    """Get the command from the string
@@ -86,7 +91,7 @@ def GetCommand(str):
    command = str.split(' ')[0]
    args = str.split(' ')[1:]
    
-   if command[0] == ":":
+   if command[:2] == "--":
       return command, args
    else:
       return False, None
