@@ -121,7 +121,7 @@ gRPC is widely used in various domains, including microservices architectures, c
 
 ## :film_projector: Demo
 
-Check out the [**demo video**](https://www.youtube.com/watch?v=j3ZhaS5n7hU&ab_channel=ThanhQu%C3%A2nCoder) to see the app in action.
+Check out the [**demo video**](https://youtu.be/DdqMn6Drp0g) to see the app in action.
 
 ## :newspaper: Documentation
 
