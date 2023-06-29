@@ -339,7 +339,7 @@ The client is allowed/blocked to send messages:
 -  [x] Logs
 -  [x] Multi-threading (client)
 -  [x] Chatting rule - At least 2 LIKE (from 2 others) to continue chat
--  [ ] Demo
+-  [x] Demo
 -  [x] Documentation
 
 # :busts_in_silhouette: Contributors
