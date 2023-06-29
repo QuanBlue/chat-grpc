@@ -30,7 +30,7 @@
 
 <p align="center">
   <b>
-      <a href="#demo">Demo</a> •
+      <a href="https://youtu.be/DdqMn6Drp0g">Demo</a> •
       <a href="https://github.com/QuanBlue/chat-grpc">Documentation</a> •
       <a href="https://github.com/QuanBlue/chat-grpc/issues/">Report Bug</a> •
       <a href="https://github.com/QuanBlue/chat-grpc/issues/">Request Feature</a>
@@ -121,7 +121,7 @@ gRPC is widely used in various domains, including microservices architectures, c
 
 ## :film_projector: Demo
 
-Check out the [**demo video**](https://youtu.be/DdqMn6Drp0g) to see the app in action.
+Check out the [**Demo video**](https://youtu.be/DdqMn6Drp0g) to see the app in action.
 
 ## :newspaper: Documentation
 
